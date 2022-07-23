@@ -8,5 +8,6 @@ while ethereum and blockchains are specifically designed to make it hard to stor
 - [ ] Set up 2d byte32 arrays for large files in contract
 - [ ] Figure out optimal transaction size for gas & file storage
 - [ ] Make gui for uploading files and showing estimated gas cost 
+- [ ] Make frontend for viewing files in contract by name, listing avaiable ones
 - [ ] Check for existing file names in contract
 - [ ] Add a password hash or something to protect anyone adding files to contract
