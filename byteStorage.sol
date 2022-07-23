@@ -7,15 +7,19 @@ contract ByteStorage {
     // make into bytes32[][] for larger files
     mapping(string => bytes32[]) files;
     // check for existing fileNames
-    // map fileName to length, getter for that
-    string[] public fileNames;
+    string[] fileNames;
+    mapping(string => uint32) fileLengths;
+    mapping(string => string) fileExtensions;
 
     constructor () {
+        // max size to do this with to check gas?? 8000 worked, this didn't ???
         // files["emptyFile"] = new bytes32[](10000);
     }
 
-    function newFile(uint32 fileLength, string memory fileName) public {
+    function newFile(string memory fileName, uint32 fileLength, string memory fileExt) public {
         files[fileName] = new bytes32[](fileLength);
+        fileLengths[fileName] = fileLength;
+        fileExtensions[fileName] = fileExt;
     }
     
     function getFilePart(string memory fileName, uint32 begin, uint32 end) public view returns (bytes32[] memory) {
@@ -33,5 +37,14 @@ contract ByteStorage {
             files[fileName][i] = fileParts[i - startIndex];
         }
     }
+
+    // helpers
+    function getFileLength(string memory fileName) public view returns (uint32) {
+        return fileLengths[fileName];
+    }
+    function getFileExtension(string memory fileName) public view returns (string memory) {
+        return fileExtensions[fileName];
+    }
+
 
 }
