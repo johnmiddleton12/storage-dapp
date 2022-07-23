@@ -7,7 +7,8 @@ while ethereum and blockchains are specifically designed to make it hard to stor
 - [ ] Fix bug where you need a file to exist to estimate gas, too large files don't work for some reason (add this to contract constructor?)
 - [ ] Set up 2d byte32 arrays for large files in contract
 - [ ] Figure out optimal transaction size for gas & file storage
+- [ ] Make frontend for viewing files in contract by name, listing available ones
 - [ ] Make gui for uploading files and showing estimated gas cost 
-- [ ] Make frontend for viewing files in contract by name, listing avaiable ones
+- [ ] Audit contract security, only allow approved addition / removal, etc
 - [ ] Check for existing file names in contract
 - [ ] Add a password hash or something to protect anyone adding files to contract
