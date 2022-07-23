@@ -28,6 +28,11 @@ for i in range(0, lengthOfFile, 500):
 
     parts.append(filePart)
 
+
+# If output folder doesn't exist, then create it
+if not os.path.isdir('outputs'):
+    os.makedirs('outputs')
+
 with open('outputs/{}.{}'.format(fileName, fileExt), 'wb') as f:
     for i in range(len(parts)):
         for j in range(len(parts[i])):

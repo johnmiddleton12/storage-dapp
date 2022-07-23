@@ -6,6 +6,7 @@ import sys, os
 PRIVATE_KEY = os.environ.get('PRIVATE_KEY')
 PERSONAL_ADDRESS = os.environ.get('ADDRESS')
 RPC_URL = os.environ.get('RPC_URL')
+CHAIN_SCAN_URL = os.environ.get('CHAIN_SCAN_URL')
 CONTRACT_ADDRESS = os.environ.get('CONTRACT_ADDRESS')
 CONTRACT_ABI = os.environ.get('CONTRACT_ABI')
 
@@ -23,7 +24,7 @@ def load_url(signed_txn):
             if receipt["status"] == 1:
                 print("success\t" + w3.toHex(w3.keccak(signed_txn.rawTransaction)))
                 # print link to tx
-                print("https://ropsten.etherscan.io/tx/" + w3.toHex(w3.keccak(signed_txn.rawTransaction)))
+                print(CHAIN_SCAN_URL + w3.toHex(w3.keccak(signed_txn.rawTransaction)))
             else:
                 print("fail\t" + w3.toHex(w3.keccak(signed_txn.rawTransaction)))
             break
@@ -127,7 +128,3 @@ if confirm == 'y':
     print('Transactions Complete')
 else:
     print('Transaction Cancelled')
-    # exit()
-
-# sent_txn = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
-# print(sent_txn)
