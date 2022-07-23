@@ -63,7 +63,6 @@ totalGas = 0
 count = 0
 
 try:
-    # figure out a way to fix file name thing
     transaction = contract.functions.newFile("testFile5", len(fileParts), fileExtension).buildTransaction({
         'value': 0,
         'chainId': 3,
