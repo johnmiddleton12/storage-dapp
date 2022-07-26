@@ -7,9 +7,9 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Container from '@mui/system/Container';
 import { Grid, Typography } from '@mui/material';
 
-const ethers = require('ethers');
+import { StorageContractAddress } from './constants/constants.js';
 
-const StorageContractAddress = "0x04BD1EAA738f1F79be86fAF63E79f1809Ac6C12D";
+const ethers = require('ethers');
 
 function App() {
 
@@ -148,12 +148,12 @@ function App() {
       justify="center"
     >
 
-      <Grid item 
+      <Grid item
         style={{
           marginTop: '20px',
           marginBottom: '20px'
         }}
-      > 
+      >
         <Typography variant="h4">
           File Downloader
         </Typography>
@@ -187,13 +187,11 @@ function App() {
 
       <Grid item xs={6}>
 
-        <br></br>
         <Container justify="center" spacing={1}>
           <LoadingButton loading={loading}
             variant="contained"
             color="primary"
             size="large"
-            style={{ marginTop: '10px' }}
             onClick={() => {
               encodeFile();
             }}
@@ -202,53 +200,57 @@ function App() {
           </LoadingButton>
 
         </Container>
-        </Grid>
-        {base64string ?
+      </Grid>
+      {base64string ?
         <Grid item xs={12}>
-        <Container justify="center" spacing={1}>
-          <audio 
-          style={{
-            margin: '5px'
-          }}
-          controls="controls" autobuffer="autobuffer" autoPlay="autoplay">
-            <source src={`${base64string}`} />
-          </audio>
-        </Container>
-        </Grid>
-          : null
-        }
-        <Grid item xs={12}>
-        <Container id="linkSpot" justify="center" spacing={1}>
+          <Container justify="center" spacing={1}>
+            <audio
+              style={{
+                margin: '5px'
+              }}
+              controls="controls" autobuffer="autobuffer" autoPlay="autoplay">
+              <source src={`${base64string}`} />
+            </audio>
           </Container>
         </Grid>
+        : null
+      }
+      <Grid item xs={12}>
+        <Container id="linkSpot" justify="center" spacing={1}>
+        </Container>
+      </Grid>
 
-        <Grid item xs={12}>
+      <Grid item xs={12}>
         <Container justify="center" spacing={3}>
           <Typography variant="h6" color="primary">
             {status}
           </Typography>
-          {status2 && 
-          <div>
-            <Typography variant="h7" color="primary">
-              {status2}
-            </Typography>
-            <br />
-            <Typography variant="h7" color="primary">
-              {status3}
-            </Typography>
-          </div>
+          {status2 &&
+            <div>
+              <Typography variant="h7" color="primary">
+                {status2}
+              </Typography>
+              <br />
+              <Typography variant="h7" color="primary">
+                {status3}
+              </Typography>
+            </div>
           }
         </Container>
         <br></br>
 
 
       </Grid>
+      <Grid item xs={4}>
+        <Container justify="center" spacing={1}>
+          {downloadedFileParts.length > 0 &&
+            <Typography variant="h7" >{`${downloadedFileParts.length} parts downloaded`}</Typography>
+          }
+        </Container>
+      </Grid>
       <Grid item xs={6}>
 
         <Container justify="center" spacing={3}>
-          {downloadedFileParts.length > 0 &&
-            <Typography variant="h6">{`${downloadedFileParts.length} parts downloaded`}</Typography>
-          }
           {downloadedFileParts.length > 0 ?
             <p
               style={
