@@ -6,6 +6,7 @@ Uses ethers.js
 
 ### Todo
 
+- [ ] Add better wallet setup, automatic chain detection, more wallets than metamask, etc.
 - [ ] Add routing to a download page
 - [ ] Further separate into components
 - [ ] Fix the gross current state management
