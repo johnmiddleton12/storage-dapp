@@ -55,6 +55,9 @@ function App() {
         setProvider={setProvider}
       />
 
+      {walletAddress.length > 0 && provider !== null && (
+        <>
+
       <DownloadForm downloadFileMain={downloadFileMain} fileName={fileName} setFileName={setFileName} loading={loading} />
 
       <Grid item xs={6}>
@@ -130,6 +133,8 @@ function App() {
 
         <br />
       </Grid>
+      </>
+      )}
     </Grid>
   );
 }
