@@ -10,9 +10,13 @@ import Header from './components/Header';
 import { downloadFile, encodeFile } from './functions/download';
 import DownloadForm from './components/DownloadForm';
 
+import CryptoBox from './components/CryptoBox';
+
 const ethers = require('ethers');
 
 function App() {
+
+  const [walletAddress, setWallet] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
@@ -25,7 +29,7 @@ function App() {
   const [downloadedFileParts, setDownloadedFileParts] = useState([]);
   const [base64string, setBase64string] = useState('');
 
-  const provider = new ethers.providers.Web3Provider(window.ethereum) || new ethers.providers.JsonRpcProvider('http://localhost:8545');
+  const [provider, setProvider] = useState(null);
 
   async function downloadFileMain() {
     await downloadFile(fileName, setFileExtension, setDownloadedFileParts, setLoading, setStatus, setStatus2, setStatus3, setBase64string, provider);
@@ -44,6 +48,12 @@ function App() {
       justify="center"
     >
       <Header />
+
+      <CryptoBox
+        walletAddress={walletAddress}
+        setWallet={setWallet}
+        setProvider={setProvider}
+      />
 
       <DownloadForm downloadFileMain={downloadFileMain} fileName={fileName} setFileName={setFileName} loading={loading} />
 
@@ -111,23 +121,8 @@ function App() {
 
         <Container justify="center" spacing={3}>
           {downloadedFileParts.length > 0 ?
-            <p
-              style={
-                {
-                  display: 'inline-block',
-                  width: '100%',
-                  textAlign: 'center',
-                  fontSize: '1.1rem',
-                  fontWeight: 'bold',
-                  color: '#00bcd4',
-                  backgroundColor: '#f5f5f5',
-                  borderRadius: '5px',
-                  padding: '10px',
-                  margin: '10px',
-                  border: '1px solid #00bcd4',
-                  wordWrap: 'break-word',
-                }}
-            >{downloadedFileParts.at(downloadedFileParts.length - 1).slice(0, 10)}<br />...<br />
+            <p className="part-display">
+              {downloadedFileParts.at(downloadedFileParts.length - 1).slice(0, 10)}<br />...<br />
               {downloadedFileParts.at(downloadedFileParts.length - 1).slice(downloadedFileParts.at(downloadedFileParts.length - 1).length - 10, downloadedFileParts.at(downloadedFileParts.length - 1).length)}
             </p>
             : null}
