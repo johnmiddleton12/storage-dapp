@@ -4,7 +4,7 @@ import {
     getCurrentWalletConnected,
 } from "../functions/connect";
 
-const CryptoBox = ({ walletAddress, setWallet, setProvider }) => {
+const CryptoBox = ({ walletAddress, setWallet, chainId, setChainId, setProvider }) => {
 
     const ethers = require('ethers');
 
@@ -24,7 +24,6 @@ const CryptoBox = ({ walletAddress, setWallet, setProvider }) => {
         }
     };
 
-    const [chainId, setChainId] = useState(0);
     const [status, setStatus] = useState("");
     const [balance, setBalance] = useState(0);
 

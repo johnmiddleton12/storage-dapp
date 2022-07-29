@@ -19,6 +19,7 @@ const ethers = require('ethers');
 function App() {
 
   const [walletAddress, setWallet] = useState("");
+  const [chainId, setChainId] = useState(0);
 
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
@@ -55,10 +56,12 @@ function App() {
         <CryptoBox
           walletAddress={walletAddress}
           setWallet={setWallet}
+          chainId={chainId}
+          setChainId={setChainId}
           setProvider={setProvider}
         />
 
-        {walletAddress.length > 0 && provider !== null && (
+        {walletAddress.length > 0 && provider !== null && parseInt(chainId, 16) === 137 && (
           <>
             <Routes>
 
