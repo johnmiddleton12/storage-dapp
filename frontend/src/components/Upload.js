@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { Grid, Container, Typography } from "@mui/material";
-import TextField from '@mui/material/TextField';
-import LoadingButton from '@mui/lab/LoadingButton';
 
 import { Button } from "@mui/material";
-import { logger } from "ethers";
 
 export default function Upload() {
 
@@ -21,9 +18,29 @@ export default function Upload() {
         })
     }
 
-    async function encodeFile() {
+    async function divideFileIntoParts() {
         let byteArray = new Uint8Array(await readFile(file));
-        console.log(byteArray);
+        let chunks = [];
+        for (let i = 0; i < byteArray.length; i += 32) {
+            chunks.push(byteArray.slice(i, i + 32));
+        }
+        let chunks_parts = [];
+        for (let i = 0; i < chunks.length; i += 500) {
+            chunks_parts.push(chunks.slice(i, i + 500));
+        }
+
+        setFileParts(chunks_parts);
+        console.log(fileParts);
+    }
+
+    async function createNewFile() {
+        // calculate size and array count for new file
+        // also extension
+        // create and submit the transactions using load_url type function
+    }
+
+    async function uploadFile() {
+        // for each element of fileParts, create a transaction and submit it
     }
 
     return (
@@ -50,7 +67,7 @@ export default function Upload() {
 
                 <Container justify="center" spacing={3}>
                     <Button type="submit"
-                        onClick={encodeFile}
+                        onClick={divideFileIntoParts}
                         variant="contained"
                         color="primary"
                     >
@@ -61,7 +78,7 @@ export default function Upload() {
 
                 <Container justify="center" spacing={3}>
                     <Button type="submit"
-                        onClick={encodeFile}
+                        onClick={divideFileIntoParts}
                         variant="contained"
                         color="primary"
                     >
