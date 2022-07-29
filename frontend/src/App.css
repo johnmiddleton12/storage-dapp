@@ -1,6 +1,6 @@
 .part-display {
   display: inline-block;
-  width: 100%;
+  width: 90%;
   text-align: center;
   font-size: 1.1rem;
   font-weight: bold;
@@ -10,7 +10,13 @@
   padding: 10px;
   margin: 10px;
   border: 1px solid #00bcd4;
-  word-wrap: break-word;
+  word-wrap: break-all;
+}
+
+.part-box {
+  width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 .crypto-box {

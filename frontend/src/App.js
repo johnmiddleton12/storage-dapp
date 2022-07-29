@@ -132,7 +132,7 @@ function App() {
                   </Grid>
                   <Grid item xs={6}>
 
-                    <Container justify="center" spacing={3}>
+                    <Container className="part-box" justify="center" spacing={3}>
                       {downloadedFileParts.length > 0 ?
                         <p className="part-display">
                           {downloadedFileParts.at(downloadedFileParts.length - 1).slice(0, 10)}<br />...<br />
