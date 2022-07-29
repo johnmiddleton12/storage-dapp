@@ -3,7 +3,9 @@ import { Grid, Container, Typography } from "@mui/material";
 
 import { Button } from "@mui/material";
 
-export default function Upload() {
+import { createNewFile } from "../functions/upload";
+
+export default function Upload({ provider }) {
 
     const [file, setSelectedFile] = useState(null);
 
@@ -30,13 +32,16 @@ export default function Upload() {
         }
 
         setFileParts(chunks_parts);
-        console.log(fileParts);
+        console.log(chunks_parts);
     }
 
-    async function createNewFile() {
+    async function createFile() {
         // calculate size and array count for new file
         // also extension
         // create and submit the transactions using load_url type function
+        let file_name = file.name.split(".")[0];
+        let file_extension = file.name.split(".")[1];
+        createNewFile(file_name, file_extension, fileParts.length, provider);
     }
 
     async function uploadFile() {
@@ -78,11 +83,11 @@ export default function Upload() {
 
                 <Container justify="center" spacing={3}>
                     <Button type="submit"
-                        onClick={divideFileIntoParts}
+                        onClick={createFile}
                         variant="contained"
                         color="primary"
                     >
-                        Upload File
+                        Create File
                     </Button>
                 </Container>
 

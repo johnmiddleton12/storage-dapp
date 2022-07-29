@@ -1,13 +1,11 @@
-# Sample Hardhat Project
+### Storage Dapp Backend
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+This is the backend for the storage dapp
 
-Try running some of the following tasks:
+Developed with hardhat
 
-```shell
-npx hardhat help
-npx hardhat test
-GAS_REPORT=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
-```
+one useful thing is in hardhat config, outputs ABI into artifacts folder in frontend
+
+### Todo
+
+- [ ] Hash the file contents and use this as file name and storage reference in contract
