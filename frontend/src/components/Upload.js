@@ -81,7 +81,7 @@ export default function Upload({ provider }) {
         if (file) {
             let file_name = file.name.split(".")[0];
             let file_array_count = parseInt((fileParts.length * 500) / 10000) + 1;
-            let file_final_array_length = (fileParts.length * 500) % 10000
+            let file_final_array_length = ((fileParts.length * 500) - 500 + (fileParts[fileParts.length - 1].length)) % 10000;
             let transaction = await createNewFileArrays(file_name, file_array_count, file_final_array_length, provider);
             console.log(transaction);
             if (transaction.status === "success") {

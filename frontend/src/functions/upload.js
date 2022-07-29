@@ -30,7 +30,7 @@ export async function createNewFileArrays(fileName, fileLength, fileFinalArrayLe
     let contract = new ethers.Contract(StorageContractAddress, StorageAbi.abi, signer)
 
     if (fileLength > 0) {
-        for (let i = 0; i < fileLength - 1; i++) {
+        for (let i = 11; i < fileLength - 1; i++) {
             let transaction = await contract.newFileArray(fileName, i, 10000);
             console.log('File Array Created: ' + fileName + " " + i);
         }
