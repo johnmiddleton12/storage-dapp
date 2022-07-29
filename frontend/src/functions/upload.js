@@ -80,10 +80,7 @@ export async function uploadNewFileEstimateGas(fileName, fileParts, provider) {
 
         // console.log('Uploading part: ' + filePartsHex[i]);
         console.log(fileName);
-        let gas_estimate = await contract.estimateGas.setFileArray(fileName, arrayIndex, startIndex, endIndex, filePartsHex[i], {
-            gasPrice: ethers.utils.parseUnits('10', 'gwei'),
-            gasLimit: 100000000
-        });
+        let gas_estimate = await contract.estimateGas.setFileArray(fileName, arrayIndex, startIndex, endIndex, filePartsHex[i], { });
         let gas_price = await provider.getGasPrice();
 
         totalGas += gas_estimate * gas_price;
