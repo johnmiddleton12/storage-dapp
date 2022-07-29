@@ -14,6 +14,8 @@ import CryptoBox from './components/CryptoBox';
 
 import { BrowserRouter as Router, Routes, Link, Route } from 'react-router-dom';
 
+import Upload from './components/Upload';
+
 const ethers = require('ethers');
 
 function App() {
@@ -146,7 +148,7 @@ function App() {
                 </>
                 }
               />
-              <Route path="/upload" element={<p>Placeholder for upload page</p>} />
+              <Route path="/upload" element={ <Upload /> } />
             </Routes>
 
             <Grid item xs={12}>
