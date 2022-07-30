@@ -53,7 +53,9 @@ const CryptoBox = ({ walletAddress, setWallet, chainId, setChainId, setProvider 
                 setStatus("Click below to connect to Metamask 🦊");
             }
         } else {
-            setStatus("Install the Metamask extension.");
+            setStatus("Install the Metamask extension to upload files.");
+            const provider = new ethers.providers.getDefaultProvider(137);
+            setProvider(provider);
         }
     }, [walletAddress, chainId]);
 

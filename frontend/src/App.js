@@ -35,7 +35,8 @@ function App() {
           setProvider={setProvider}
         />
 
-        {walletAddress.length > 0 && provider !== null && parseInt(chainId, 16) === 137 && (
+        {/* {walletAddress.length > 0 && provider !== null && parseInt(chainId, 16) === 137 && ( */}
+        { ((window.ethereum !== null && walletAddress.length > 0 && provider !== null && parseInt(chainId, 16) === 137) || (!window.ethereum && provider !== null)) && (
           <>
             <Routes>
               <Route path="/" element={ <Download provider={provider} /> } />
