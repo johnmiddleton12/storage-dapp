@@ -21,6 +21,7 @@ export default function Upload({ provider }) {
 
     async function checkFileExists() {
         if (file) {
+            setLoading(true);
             setCompletion(0);
             setUploadCompletion(0);
             setGasEstimate(0);
@@ -40,13 +41,15 @@ export default function Upload({ provider }) {
                 setFileExists("File Template Exists on the blockchain");
                 // TODO: this is not a permanent solution
                 if (fileInfo[3] === 0) {
-                    setFileArraysExistsMessage("arrays have not been created");
+                    let array_count = parseInt((fileParts.length * 500) / 10000) + 1;
+                    setFileArraysExistsMessage("arrays have not been created, " + array_count + " arrays need to be created (each costs .3-.7 matic)");
                     setFileArraysExists(false);
                 } else {
                     setFileArraysExistsMessage("arrays have been created");
                     setFileArraysExists(true);
                 }
             }
+            setLoading(false);
         } else {
             setFileExists("");
             setFileArraysExists("");
@@ -191,11 +194,11 @@ export default function Upload({ provider }) {
                     </LoadingButton>
 
                     <Typography variant="h7">
-                        {loading ? "Estimating Gas..." : ""}
+                        {completion > 0 && completion !== 100 ? "Estimating Gas..." : ""}
                     </Typography>
 
                     <Typography variant="h7">
-                        {gasEstimate > 0 ? "Estimated Gas: " + gasEstimate.toString().substring(0, 6) + " Matic" : ""}
+                        {gasEstimate > 0 ? "Estimated Gas: " + gasEstimate.toString().substring(0, 6) + ` Matic (${fileParts.length} transactions)` : ""}
                     </Typography>
 
                     <Typography variant="h7">

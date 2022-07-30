@@ -6,6 +6,7 @@ Uses ethers.js
 
 ### Todo
 
+- [ ] ***Add a link for each upload transaction after it's sent, with a link to retry if it fails
 - [x] Add better wallet setup, automatic chain detection, more wallets than metamask, etc. (Take from testsite repo)
 - [x] Add routing to an upload page
 - [ ] Hash the content of the file and use it as file name on chain and reference - provide list of filenames for easy access
