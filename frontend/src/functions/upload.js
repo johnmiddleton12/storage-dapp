@@ -42,8 +42,7 @@ export async function createNewFileArrays(fileName, fileLength, fileFinalArrayLe
     }
 }
 
-export async function uploadNewFileEstimateGas(fileName, fileParts, provider) {
-    console.log('File Parts: ' + fileParts.length);
+export async function uploadNewFileEstimateGas(fileName, fileParts, provider, setCompletion) {
     let arrayIndex = 0;
     let startIndex;
     let endIndex;
@@ -58,32 +57,34 @@ export async function uploadNewFileEstimateGas(fileName, fileParts, provider) {
     // map each element in each file part to hexlify
     let filePartsHex = fileParts.map(filePart => {
         let filePartHex = filePart.map(filePartElement => {
-            return ethers.utils.hexlify(filePartElement);
+            // return ethers.utils.hexlify(filePartElement);
+            return ethers.utils.hexZeroPad(ethers.utils.hexlify(filePartElement), 32);
         }
         );
         return filePartHex;
     });
 
+    console.log('File Parts: ' + fileParts.length);
     console.log('File Parts Hex Length: ' + filePartsHex.length);
-    console.log('File Parts Hex[0] Length: ' + filePartsHex[0].length);
 
-    // for (let i = 0; i < fileParts.length; i++) {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < fileParts.length; i++) {
+
+        setCompletion(Math.floor((i / fileParts.length) * 100));
 
         startIndex = count * 500;
         endIndex = startIndex + fileParts[i].length;
 
-        console.log('Array Index: ' + arrayIndex);
-        console.log('Indexing from: ' + startIndex + ' to ' + endIndex);
+        // console.log('Array Index: ' + arrayIndex);
+        // console.log('Indexing from: ' + startIndex + ' to ' + endIndex);
+        // console.log('Uploading ' + filePartsHex[i].length + ' size data in a ' + (endIndex - startIndex) + ' size spot');
 
-        // console.log('Uploading ' + fileParts[i].length + ' in a ' + (endIndex - startIndex) + ' size spot');
-
-        // console.log('Uploading part: ' + filePartsHex[i]);
-        console.log(fileName);
-        let gas_estimate = await contract.estimateGas.setFileArray(fileName, arrayIndex, startIndex, endIndex, filePartsHex[i], { });
+        let gas_limit = await contract.estimateGas.setFileArray(fileName, arrayIndex, startIndex, endIndex, filePartsHex[i]);
         let gas_price = await provider.getGasPrice();
 
-        totalGas += gas_estimate * gas_price;
+        let gas_estimate = ethers.BigNumber.from(gas_limit).mul(ethers.BigNumber.from(gas_price));
+        // console.log('Gas Estimate: ' + gas_estimate.toString());
+        totalGas += parseFloat(ethers.utils.formatEther(gas_estimate));
+        // console.log('Total Gas Estimate: ' + totalGas + " Matic");
 
         count++;
         if (count === 20) {
@@ -92,10 +93,15 @@ export async function uploadNewFileEstimateGas(fileName, fileParts, provider) {
         }
     }
 
-    // convert gas to ether
-    let totalGasInEther = ethers.utils.formatEther(totalGas);
+    setCompletion(100);
 
-    console.log('File Cost Estimate: ' + totalGasInEther + " Matic");
+    // convert gas to ether
+    // let totalGasInEther = ethers.utils.formatEther(totalGas);
+    // let totalGasInEther = totalGas;
+
+
+    // console.log('File Cost Estimate: ' + totalGasInEther + " Matic");
+    return totalGas;
 
 }
 
@@ -104,4 +110,37 @@ export async function getFileInfo(fileName, provider) {
     let contract = new ethers.Contract(StorageContractAddress, StorageAbi.abi, provider)
     let fileInfo = await contract.functions.getFileInfo(fileName);
     return fileInfo;
+}
+
+export async function uploadNewFile(fileName, fileParts, provider, setCompletion) {
+    let arrayIndex = 0;
+    let startIndex;
+    let endIndex;
+    let count = 0;
+
+    let signer = provider.getSigner();
+    let contract = new ethers.Contract(StorageContractAddress, StorageAbi.abi, signer)
+
+    let filePartsHex = fileParts.map(filePart => {
+        let filePartHex = filePart.map(filePartElement => {
+            return ethers.utils.hexZeroPad(ethers.utils.hexlify(filePartElement), 32);
+        });
+        return filePartHex;
+    });
+
+    for (let i = 0; i < fileParts.length; i++) {
+
+        setCompletion(Math.floor((i / fileParts.length) * 100));
+        startIndex = count * 500;
+        endIndex = startIndex + fileParts[i].length;
+        let transaction = await contract.setFileArray(fileName, arrayIndex, startIndex, endIndex, filePartsHex[i]);
+        console.log(transaction);
+
+        count++;
+        if (count === 20) {
+            arrayIndex++;
+            count = 0;
+        }
+    }
+    setCompletion(100);
 }

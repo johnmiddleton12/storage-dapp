@@ -1,38 +1,58 @@
 import { useState, useEffect } from "react";
 import { Grid, Container, Typography } from "@mui/material";
 
-import { Button } from "@mui/material";
+import LoadingButton from '@mui/lab/LoadingButton';
 
-import { getFileInfo, createNewFile, estimateNewFileGas, uploadNewFileEstimateGas, createNewFileArrays } from "../functions/upload";
+import { getFileInfo, createNewFile, estimateNewFileGas, uploadNewFileEstimateGas, uploadNewFile, createNewFileArrays } from "../functions/upload";
 
 export default function Upload({ provider }) {
 
     const [file, setSelectedFile] = useState(null);
 
-    const [fileExists, setFileExists] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    // create an effect that runs on page load and when file changes
-    // this effect will check if the file exists on the blockchain
-    useEffect(() => {
-        async function checkFileExists() {
-            if (file) {
-                await divideFileIntoParts();
-                let file_name = file.name.split(".")[0];
-                let fileInfo = await getFileInfo(file_name, provider);
-                console.log(fileInfo);
-                if (fileInfo[0] === "No File Found for that Name") {
-                    let file_extension = file.name.split(".")[1];
-                    let file_array_count = parseInt((fileParts.length * 500) / 10000) + 1;
-                    let gas_estimate = await estimateNewFileGas(file_name, file_extension, file_array_count, provider);
-                    console.log(gas_estimate);
-                    setFileExists(<p>File template does not exist on the blockchain<br />Estimated Gas to create it: {gas_estimate.substring(0, 6)} Matic</p>);
-                } else {
-                    setFileExists("File Template Exists on the blockchain");
-                }
+    const [completion, setCompletion] = useState(0);
+    const [uploadCompletion, setUploadCompletion] = useState(0);
+    const [gasEstimate, setGasEstimate] = useState(0);
+
+    const [fileExists, setFileExists] = useState("");
+    const [fileArraysExists, setFileArraysExists] = useState(false);
+    const [fileArraysExistsMessage, setFileArraysExistsMessage] = useState("");
+
+    async function checkFileExists() {
+        if (file) {
+            setCompletion(0);
+            setUploadCompletion(0);
+            setGasEstimate(0);
+            await divideFileIntoParts();
+            let file_name = file.name.split(".")[0];
+            let fileInfo = await getFileInfo(file_name, provider);
+            console.log(fileInfo);
+            if (fileInfo[0] === "No File Found for that Name") {
+                let file_extension = file.name.split(".")[1];
+                let file_array_count = parseInt((fileParts.length * 500) / 10000) + 1;
+                let gas_estimate = await estimateNewFileGas(file_name, file_extension, file_array_count, provider);
+                console.log(gas_estimate);
+                setFileExists(<p>File template does not exist on the blockchain<br />Estimated Gas to create it: {gas_estimate.substring(0, 6)} Matic</p>);
+                setFileArraysExistsMessage("Create file template first");
+                setFileArraysExists(false);
             } else {
-                setFileExists("");
+                setFileExists("File Template Exists on the blockchain");
+                // TODO: this is not a permanent solution
+                if (fileInfo[3] === 0) {
+                    setFileArraysExistsMessage("arrays have not been created");
+                    setFileArraysExists(false);
+                } else {
+                    setFileArraysExistsMessage("arrays have been created");
+                    setFileArraysExists(true);
+                }
             }
+        } else {
+            setFileExists("");
+            setFileArraysExists("");
         }
+    }
+    useEffect(() => {
         checkFileExists();
     }, [file, provider]);
 
@@ -64,17 +84,14 @@ export default function Upload({ provider }) {
 
     async function createFile() {
         if (file) {
-        let file_name = file.name.split(".")[0];
-        let file_extension = file.name.split(".")[1];
-        let file_array_count = parseInt((fileParts.length * 500) / 10000) + 1;
-        let transaction = await createNewFile(file_name, file_extension, file_array_count, provider);
-        console.log(transaction);
-        if (transaction.status === "success") {
-            console.log("File Created AFTER TRANSACTION");
+            let file_name = file.name.split(".")[0];
+            let file_extension = file.name.split(".")[1];
+            let file_array_count = parseInt((fileParts.length * 500) / 10000) + 1;
+            let transaction = await createNewFile(file_name, file_extension, file_array_count, provider);
+            console.log(transaction);
+        } else {
+            alert("Please select a file first");
         }
-    } else {
-        alert("Please select a file first");
-    }
     }
 
     async function createFileArrays() {
@@ -84,17 +101,30 @@ export default function Upload({ provider }) {
             let file_final_array_length = ((fileParts.length * 500) - 500 + (fileParts[fileParts.length - 1].length)) % 10000;
             let transaction = await createNewFileArrays(file_name, file_array_count, file_final_array_length, provider);
             console.log(transaction);
-            if (transaction.status === "success") {
-                console.log("File Created AFTER TRANSACTION");
-            }
         } else {
             alert("Please select a file first");
         }
     }
 
+    async function uploadFileEstimateGas() {
+        let file_name = file.name.split(".")[0];
+        setLoading(true);
+        setCompletion(0);
+        let totalGas = await uploadNewFileEstimateGas(file_name, fileParts, provider, setCompletion);
+        setGasEstimate(totalGas);
+        setLoading(false);
+    }
+
     async function uploadFile() {
         let file_name = file.name.split(".")[0];
-        uploadNewFileEstimateGas(file_name, fileParts, provider);
+        setLoading(true);
+        setUploadCompletion(0);
+        await uploadNewFile(file_name, fileParts, provider, setUploadCompletion);
+        setLoading(false);
+    }
+
+    async function refresh() {
+        await checkFileExists();
     }
 
     return (
@@ -112,45 +142,94 @@ export default function Upload({ provider }) {
                 <br />
 
                 <Container justify="center" spacing={3}>
-                    <Button variant="contained" component="label" >
+                    <LoadingButton variant="contained" component="label" loading={loading} >
                         Select File
                         <input type="file" onChange={(e) => setSelectedFile(e.target.files[0])} hidden />
-                    </Button>
+                    </LoadingButton>
                 </Container>
                 <br />
 
                 <Container justify="center" spacing={3}>
-                    <Button type="submit"
+                    <LoadingButton type="submit"
                         onClick={createFile}
                         variant="contained"
                         color="primary"
                         disabled={fileExists === "File Template Exists on the blockchain" ? true : false}
+                        loading={loading}
                     >
                         Create File Template
-                    </Button>
+                    </LoadingButton>
                     <Typography variant="h7">
                         {fileExists}
                     </Typography>
                 </Container>
 
                 <Container justify="center" spacing={3}>
-                    <Button type="submit"
+                    <LoadingButton type="submit"
                         onClick={createFileArrays}
                         variant="contained"
                         color="primary"
+                        loading={loading}
+                        disabled={fileArraysExists}
                     >
-                        Create File Arrays 
-                    </Button>
+                        Create File Arrays
+                    </LoadingButton>
+                    <Typography variant="h7">
+                        {fileArraysExistsMessage}
+                    </Typography>
                 </Container>
 
                 <Container justify="center" spacing={3}>
-                    <Button type="submit"
+                    <LoadingButton type="submit"
+                        onClick={uploadFileEstimateGas}
+                        variant="contained"
+                        color="primary"
+                        loading={loading}
+                        disabled={!fileArraysExists || !fileExists}
+                    >
+                        Estimate Gas to Upload
+                    </LoadingButton>
+
+                    <Typography variant="h7">
+                        {loading ? "Estimating Gas..." : ""}
+                    </Typography>
+
+                    <Typography variant="h7">
+                        {gasEstimate > 0 ? "Estimated Gas: " + gasEstimate.toString().substring(0, 6) + " Matic" : ""}
+                    </Typography>
+
+                    <Typography variant="h7">
+                        {completion > 0 && completion !== 100 ? "Calculated " + completion + "% of file" : ""}
+                    </Typography>
+
+                </Container>
+
+                <Container justify="center" spacing={3}>
+                    <LoadingButton type="submit"
                         onClick={uploadFile}
                         variant="contained"
                         color="primary"
+                        loading={loading}
+                        disabled={!fileArraysExists || !fileExists}
                     >
                         Upload File
-                    </Button>
+                    </LoadingButton>
+
+                    <Typography variant="h7">
+                        {uploadCompletion > 0 ? "Uploaded " + uploadCompletion + "% of file" : ""}
+                    </Typography>
+
+                </Container>
+
+                <Container justify="center" spacing={3}>
+                    <LoadingButton type="submit"
+                        onClick={refresh}
+                        variant="contained"
+                        color="primary"
+                        loading={loading}
+                    >
+                        Refresh
+                    </LoadingButton>
                 </Container>
 
             </Container>
