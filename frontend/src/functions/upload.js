@@ -8,10 +8,10 @@ export async function estimateNewFileGas(fileName, fileExtension, fileLength, pr
     console.log('Uploading file: ' + fileName);
 
     let createFileCost = await contract.estimateGas.newFileTemplate(fileName, fileExtension, fileLength);
-    let gasPrice = await provider.getGasPrice();
+    let gasPrice = ethers.BigNumber.from(await provider.getGasPrice());
 
     // convert gas to ether
-    let createFileCostInEther = ethers.utils.formatEther(createFileCost * gasPrice);
+    let createFileCostInEther = ethers.utils.formatEther(createFileCost.mul(gasPrice));
 
     console.log('File Cost Estimate: ' + createFileCostInEther + " Matic");
     return createFileCostInEther;
@@ -22,6 +22,7 @@ export async function createNewFile(fileName, fileExtension, fileLength, provide
     let contract = new ethers.Contract(StorageContractAddress, StorageAbi.abi, signer)
     let transaction = await contract.newFileTemplate(fileName, fileExtension, fileLength);
     console.log('File Created: ' + fileName);
+
     return transaction;
 }
 

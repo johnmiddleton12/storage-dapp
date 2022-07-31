@@ -3,6 +3,8 @@ import { Grid, Container, Typography } from "@mui/material";
 
 import LoadingButton from '@mui/lab/LoadingButton';
 
+import Transactions from "./Transactions";
+
 import { getFileInfo, createNewFile, estimateNewFileGas, uploadNewFileEstimateGas, uploadNewFile, createNewFileArrays } from "../functions/upload";
 
 export default function Upload({ provider }) {
@@ -18,6 +20,8 @@ export default function Upload({ provider }) {
     const [fileExists, setFileExists] = useState("");
     const [fileArraysExists, setFileArraysExists] = useState(false);
     const [fileArraysExistsMessage, setFileArraysExistsMessage] = useState("");
+
+    const [transactions, setTransactions] = useState([]);
 
     async function checkFileExists() {
         if (file) {
@@ -91,6 +95,8 @@ export default function Upload({ provider }) {
             let file_extension = file.name.split(".")[1];
             let file_array_count = parseInt((fileParts.length * 500) / 10000) + 1;
             let transaction = await createNewFile(file_name, file_extension, file_array_count, provider);
+
+            setTransactions([...transactions, transaction]);
             console.log(transaction);
         } else {
             alert("Please select a file first");
@@ -233,6 +239,14 @@ export default function Upload({ provider }) {
                     >
                         Refresh
                     </LoadingButton>
+                </Container>
+
+                <Container justify="center" spacing={3}>
+                    <Transactions
+                        transactions={transactions}
+                        setTransactions={setTransactions}
+                        provider={provider}
+                    />
                 </Container>
 
             </Container>
