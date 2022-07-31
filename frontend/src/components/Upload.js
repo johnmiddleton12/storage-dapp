@@ -3,7 +3,7 @@ import { Grid, Container, Typography } from "@mui/material";
 
 import LoadingButton from '@mui/lab/LoadingButton';
 
-import Transactions from "./Transactions";
+import TransactionTracker from "./TransactionTracker";
 
 import { getFileInfo, createNewFile, estimateNewFileGas, uploadNewFileEstimateGas, uploadNewFile, createNewFileArrays } from "../functions/upload";
 
@@ -242,7 +242,7 @@ export default function Upload({ provider }) {
                 </Container>
 
                 <Container justify="center" spacing={3}>
-                    <Transactions
+                    <TransactionTracker
                         transactions={transactions}
                         setTransactions={setTransactions}
                         provider={provider}

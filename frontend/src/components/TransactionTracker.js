@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import CheckIcon from '@mui/icons-material/Check';
 
-export default function Transactions({ transactions, setTransactions, provider }) {
+// takes in transaction objects and returns a div of a list of them, tracking when complete and
+// offering retry option upon failure
+// TODO: setTransactions, provider necessary?
+// maybe add X button to remove transaction from visible list
+export default function TransactionTracker({ transactions, setTransactions, provider }) {
 
     const [transactionPromises, setTransactionPromises] = useState([]);
 
