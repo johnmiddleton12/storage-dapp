@@ -7,4 +7,14 @@ module.exports = {
         extend: {},
     },
     plugins: [],
+    theme: {
+        extend: {
+        colors: {
+            'jp': {
+                'light-blue': '#5090ea',
+                'dark-blue': '#153d6f70',
+            },
+        },
+    },
+    },
 }
