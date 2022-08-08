@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import matictokenicon from '../matic-token-icon.svg';
 
 export default function NavBar () {
 
-  const [selectedPage, setSelectedPage] = useState(0);
+    const location = useLocation(); 
 
     return (
       <div className="md:flex top-0 left-0 w-full bg-transparent justify-center">
 
-        <div className="flex w-full space-x-3 justify-center md:justify-start md:ml-6 font-bold text-white text-xl mt-8">
+        <div className="flex w-full space-x-3 justify-center md:justify-start md:ml-6 font-bold text-white text-xl pt-8 md:pt-0 md:mt-8">
           <p className="">ChainLoader</p>
           <img src={matictokenicon} alt="matic token logo" className="w-8 h-8" />
         </div>
@@ -21,17 +21,17 @@ export default function NavBar () {
               overflow-x-hidden overflow-y-hidden p-0.5 font-semibold
               ">
 
-          <button className={`pl-4 pr-4 pt-2 pb-2 rounded-xl ${selectedPage === 0 ? 'bg-gray-700' : ''}`} onClick={() => setSelectedPage(0)}>
+          <Link to="" className={`pl-4 pr-4 pt-2 pb-2 rounded-xl ${!(location.pathname.includes('upload')) ? 'bg-gray-700' : ''}`}>
             Download
-          </button>
-          <button className={`pl-4 pr-4 pt-2 pb-2 rounded-xl ${selectedPage === 1 ? 'bg-gray-700' : ''}`} onClick={() => setSelectedPage(1)}>
+          </Link>
+          <Link to="upload" className={`pl-4 pr-4 pt-2 pb-2 rounded-xl ${location.pathname.includes('upload') ? 'bg-gray-700' : ''}`}>
             Upload
-          </button>
+          </Link>
 
         </div>
 
         </div>
-
+{/* 
         <div className="flex space-x-1 w-full justify-center md:justify-end md:mr-6 mt-8">
           <div className="bg-jp-gray rounded-2xl box-border text-16 p-0.5 font-semibold h-12">
 
@@ -50,6 +50,7 @@ export default function NavBar () {
           </div>
 
         </div>
+*/}
 
       </div>
     )
