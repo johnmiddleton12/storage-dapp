@@ -97,7 +97,7 @@ export function encodeFile(downloadedFileParts, fileName, fileExtension, setStat
     reader.onload = function () {
 
       let firstChar = reader.result.at(reader.result.indexOf(',') + 1);
-      // console.log(firstChar);
+      console.log(firstChar);
       let content = reader.result.split(',')[1];
       let dataType;
 
@@ -111,6 +111,10 @@ export function encodeFile(downloadedFileParts, fileName, fileExtension, setStat
         dataType = 'audio/wav';
       } else if (firstChar === 'W') {
         dataType = 'audio/webm';
+      } else if (firstChar === 'R') {
+        dataType = 'image/gif';
+      } else if (firstChar === '/') {
+        dataType = 'image/jpeg';
       }
 
       let header = `data:${dataType};base64,`;

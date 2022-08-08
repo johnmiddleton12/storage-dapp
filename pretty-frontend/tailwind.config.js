@@ -13,6 +13,7 @@ module.exports = {
             'jp': {
                 'light-blue': '#5090ea',
                 'dark-blue': '#153d6f70',
+                'gray': '#191b1f',
             },
         },
     },

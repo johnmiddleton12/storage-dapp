@@ -26,6 +26,7 @@ export default function Download({ provider }) {
 
     function decodeFile() {
         encodeFile(downloadedFileParts, fileName, fileExtension, setStatus, setLoading, setBase64string);
+        console.log(base64string);
     }
 
     return (
@@ -51,13 +52,21 @@ export default function Download({ provider }) {
             {base64string ?
                 <Grid item xs={12}>
                     <Container justify="center" spacing={1}>
+                        { base64string.startsWith('data:audio') ?
                         <audio
                             style={{
                                 margin: '5px'
                             }}
                             controls="controls" autobuffer="autobuffer" autoPlay="autoplay">
                             <source src={`${base64string}`} />
-                        </audio>
+                        </audio> : base64string.startsWith('data:image') ?
+                        <img
+                            style={{
+                                width: '300px',
+                                height: '300px',
+                            }}
+                            src={`${base64string}`} /> 
+                        : null }
                     </Container>
                 </Grid>
                 : null
