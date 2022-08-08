@@ -31,7 +31,6 @@ export default function NavBar () {
         </div>
 
         </div>
-{/* 
         <div className="flex space-x-1 w-full justify-center md:justify-end md:mr-6 mt-8">
           <div className="bg-jp-gray rounded-2xl box-border text-16 p-0.5 font-semibold h-12">
 
@@ -50,7 +49,6 @@ export default function NavBar () {
           </div>
 
         </div>
-*/}
 
       </div>
     )
