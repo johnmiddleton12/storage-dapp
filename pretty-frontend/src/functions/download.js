@@ -38,6 +38,8 @@ export async function downloadFile(fileName, setDownloadedFileParts, setContentE
     // setContentElement(<p>File Content</p>);
     setContentElement(null);
     let linkSpot = document.getElementById("linkSpot");
+    // remove hidden className
+    linkSpot.classList.remove("hidden");
     if (document.getElementById('download-link')) {
         linkSpot.removeChild(document.getElementById('download-link'));
     }

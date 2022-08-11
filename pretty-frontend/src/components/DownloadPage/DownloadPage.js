@@ -1,42 +1,36 @@
-import DownloadForm from './DownloadForm';
-import DownloadProgress from './DownloadProgress';
+import DownloadForm from './DownloadForm'
+import DownloadProgress from './DownloadProgress'
 
-import { useState } from 'react';
+import { useState } from 'react'
 
 export default function DownloadPage() {
+    const [downloadedFileParts, setDownloadedFileParts] = useState([])
+    const [status, setStatus] = useState('Idle')
+    const [contentElement, setContentElement] = useState(null)
 
-  const [downloadedFileParts, setDownloadedFileParts] = useState([]);
-  const [status, setStatus] = useState('Idle');
-  const [contentElement, setContentElement] = useState(null);
+    return (
+        <div>
+            <DownloadForm
+                setDownloadedFileParts={setDownloadedFileParts}
+                setContentElement={setContentElement}
+                setStatus={setStatus}
+            />
 
-  return (
-    <div>
+            <div
+                className={`${
+                    contentElement === null ? 'hidden' : 'flex'
+                } justify-center items-center m-6 mt-14 md:mt-[60px]`}
+            >
+                <div className='space-y-5 text-white  bg-jp-gray rounded-2xl p-5 font-semibold'>
+                    <div className='flex w-full bg-transparent justify-center'>
+                        {contentElement}
+                    </div>
 
-      <DownloadForm 
-        setDownloadedFileParts={setDownloadedFileParts}
-        setContentElement={setContentElement}
-        setStatus={setStatus}
-      />
+                    <div id='linkSpot' className='flex w-full bg-transparent justify-center'></div>
+                </div>
+            </div>
 
-      <div className="flex justify-center items-center m-6 mt-14 md:mt-[60px]">
-        <div className="space-y-5 text-white  bg-jp-gray rounded-2xl p-5 font-semibold">
-
-          <div className="flex w-full bg-transparent justify-center">
-            {contentElement}
-          </div>
-
-          <div id="linkSpot" className="flex w-full bg-transparent justify-center">
-
-          </div>
-
+            <DownloadProgress status={status} downloadedFileParts={downloadedFileParts} />
         </div>
-      </div>
-
-      <DownloadProgress 
-        status={status}
-        downloadedFileParts={downloadedFileParts}
-      />
-
-    </div>
-  );
+    )
 }
