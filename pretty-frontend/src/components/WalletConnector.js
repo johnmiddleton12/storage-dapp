@@ -28,7 +28,7 @@ export default function WalletConnector({ setProvider, showConnectWallet }) {
     }
 
     const [status, setStatus] = useState('')
-    const [chainStatus, setChainStatus] = useState(<p className='text-white'>No Chain ID</p>)
+    const [chainStatus, setChainStatus] = useState(null)
     const [balance, setBalance] = useState(0)
 
     const requestSwitchToChain = async () => {
@@ -109,6 +109,7 @@ export default function WalletConnector({ setProvider, showConnectWallet }) {
             }
         } else {
             setStatus('Install Metamask to upload files.')
+            setChainStatus(null)
             const provider = new ethers.providers.getDefaultProvider(137)
             setProvider(provider)
         }
@@ -143,7 +144,7 @@ export default function WalletConnector({ setProvider, showConnectWallet }) {
         <div className='flex space-x-1 w-full justify-center md:justify-end md:mr-6 mt-8'>
             <div className='bg-jp-gray rounded-2xl box-border text-16 p-0.5 font-semibold h-12'>
                 <div className='flex space-x-1 justify-center align-middle pl-4 pr-4 pt-2 pb-2 rounded-xl'>
-                    {showConnectWallet ? (
+                    {showConnectWallet && chainStatus !== null ? (
                         chainStatus
                     ) : (
                         <>
