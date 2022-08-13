@@ -1,5 +1,7 @@
 import './App.css';
 
+import { useState } from 'react';
+
 import NavBar from './components/NavBar';
 import DownloadPage from './components/DownloadPage/DownloadPage';
 import UploadPage from './components/UploadPage';
@@ -8,13 +10,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
 
+  const [provider, setProvider] = useState('');
 
   return (
     <Router>
       <div className="min-h-screen w-full h-full bg-gray-800">
         {/* <div className="w-full h-full bg-gray-800"> */}
 
-        <NavBar />
+        <NavBar setProvider={setProvider}/>
 
         <Routes>
           <Route path="/" element={<DownloadPage />} />

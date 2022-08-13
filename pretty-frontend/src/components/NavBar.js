@@ -1,7 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
 import matictokenicon from '../matic-token-icon.svg';
+import DualButton from './DualButton';
+import WalletConnector from './WalletConnector';
 
-export default function NavBar () {
+export default function NavBar ({ setProvider }) {
 
     const location = useLocation(); 
 
@@ -15,40 +17,22 @@ export default function NavBar () {
 
         <div className="flex justify-center md:justify-start mt-8">
 
-        <div className="grid grid-flow-col items-center gap-x-[10px] gap-y-[10px]
-              text-white w-100 bg-jp-gray rounded-2xl h-12
-              box-border text-16 justify-start justify-self-center m-0 min-w-0
-              overflow-x-hidden overflow-y-hidden p-0.5 font-semibold
-              ">
-
-          <Link to="" className={`pl-4 pr-4 pt-2 pb-2 rounded-xl ${!(location.pathname.includes('upload')) ? 'bg-gray-700' : ''}`}>
-            Download
-          </Link>
-          <Link to="upload" className={`pl-4 pr-4 pt-2 pb-2 rounded-xl ${location.pathname.includes('upload') ? 'bg-gray-700' : ''}`}>
-            Upload
-          </Link>
+          <DualButton 
+            leftSide={
+              <Link to="/" className={`pl-4 pr-4 pt-2 pb-2 rounded-xl ${!(location.pathname.includes('upload')) ? 'bg-gray-700' : ''}`}>Download</Link>
+            }
+            rightSide={
+              <Link to="/upload" className={`pl-4 pr-4 pt-2 pb-2 rounded-xl ${(location.pathname.includes('upload')) ? 'bg-gray-700' : ''}`}>Upload</Link>
+            }
+          />
 
         </div>
 
-        </div>
-        <div className="flex space-x-1 w-full justify-center md:justify-end md:mr-6 mt-8">
-          <div className="bg-jp-gray rounded-2xl box-border text-16 p-0.5 font-semibold h-12">
-
-            <button className="flex space-x-1 justify-center align-middle pl-4 pr-4 pt-2 pb-2 rounded-xl">
-              <img src={matictokenicon} alt="matic token logo" className="w-6 h-6" />
-              <p className="text-white">Polygon</p>
-            </button>
-
-          </div>
-          <div className="bg-jp-gray rounded-2xl box-border text-16 p-0.5 font-semibold h-12">
-
-            <button className="pl-4 pr-4 pt-2 pb-2 rounded-xl bg-jp-dark-blue border border-jp-light-blue">
-              <p className="text-jp-light-blue whitespace-nowrap">Connect Wallet</p>
-            </button>
-
-          </div>
-
-        </div>
+        <WalletConnector 
+          setProvider={setProvider}
+          showConnectWallet={(location.pathname.includes('upload'))}
+          // showConnectWallet={true}
+        />
 
       </div>
     )
