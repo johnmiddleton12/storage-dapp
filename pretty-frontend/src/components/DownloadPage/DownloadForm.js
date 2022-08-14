@@ -1,14 +1,20 @@
 import { useState } from 'react'
 import { downloadFile } from '../../functions/download'
+import LoadingIcon from '../LoadingIcon'
+
 const ethers = require('ethers')
 
 export default function DownloadForm({ setDownloadedFileParts, setContentElement, setStatus }) {
     const [fileName, setFileName] = useState('')
 
+    const [loading, setLoading] = useState(false)
+
     const provider = new ethers.providers.getDefaultProvider(137)
 
-    const downloadFileMain = () => {
-        downloadFile(fileName, setDownloadedFileParts, setContentElement, setStatus, provider)
+    const downloadFileMain = async () => {
+        setLoading(true)
+        await downloadFile(fileName, setDownloadedFileParts, setContentElement, setStatus, provider)
+        setLoading(false)
     }
 
     return (
@@ -38,7 +44,13 @@ export default function DownloadForm({ setDownloadedFileParts, setContentElement
                         type='submit'
                         className='bg-gray-700 w-full border border-gray-700 rounded-2xl p-2'
                     >
+                        {loading ? (
+                            <div className='flex justify-center items-center'>
+                            <LoadingIcon />
+                            </div>
+                        ) : (
                         <p>Download</p>
+                        )}
                     </button>
                 </form>
             </div>
