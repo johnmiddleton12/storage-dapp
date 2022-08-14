@@ -141,9 +141,9 @@ export default function WalletConnector({ setProvider, showConnectWallet }) {
     }
 
     return (
-        <div className='flex space-x-1 w-full justify-center md:justify-end md:mr-6 mt-8'>
-            <div className='bg-jp-gray rounded-2xl box-border text-16 p-0.5 font-semibold h-12'>
-                <div className='flex space-x-1 justify-center align-middle pl-4 pr-4 pt-2 pb-2 rounded-xl'>
+        <div className='md:flex space-x-1 w-full justify-center md:justify-end md:mr-6 mt-8'>
+            <div className='flex justify-center text-16 font-semibold h-12'>
+                <div className='flex justify-center space-x-1 align-middle bg-jp-gray pl-4 pr-4 pt-2 pb-2 rounded-2xl'>
                     {showConnectWallet && chainStatus !== null ? (
                         chainStatus
                     ) : (
@@ -156,16 +156,13 @@ export default function WalletConnector({ setProvider, showConnectWallet }) {
             </div>
             {showConnectWallet && (
                 walletAddress.length > 0 ? (
+            <div className='mt-4 md:mt-0 flex justify-center text-16 p-0.5 font-semibold h-12'>
                 <DualButton
                     leftSide={
-                        <div className='flex items-center pl-4 pr-4 pt-2 pb-2 rounded-xl'>
+                        <div className='flex pl-4 pr-4 pt-2 pb-2 rounded-xl'>
                             {balance.toString().substring(0, 5)}
                             {chainId === '0x89' ? (
-                                <img
-                                    src={matictokenicon}
-                                    alt='matic token logo'
-                                    className='w-4 h-4 ml-2'
-                                />
+                                ' MATIC'
                             ) : (
                                 ' Ξ'
                             )}
@@ -174,7 +171,10 @@ export default function WalletConnector({ setProvider, showConnectWallet }) {
                     rightSide={
                         <div className='pl-4 pr-4 pt-2 pb-2 rounded-xl bg-gray-700'>{status}</div>
                     }
-                />) : (
+                />
+            </div>
+                ) : (
+            <div className='mt-4 md:mt-0 flex justify-center text-16 p-0.5 font-semibold h-12'>
                 <div className='bg-jp-gray rounded-2xl box-border text-16 p-0.5 font-semibold h-12'>
                     <button
                         onClick={connectWalletPressed}
@@ -183,6 +183,7 @@ export default function WalletConnector({ setProvider, showConnectWallet }) {
                         <p className='text-jp-light-blue whitespace-nowrap'>{status}</p>
                     </button>
                 </div>
+            </div>
                 )
             )}
         </div>
