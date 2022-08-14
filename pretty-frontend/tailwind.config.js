@@ -9,6 +9,19 @@ module.exports = {
     plugins: [],
     theme: {
         extend: {
+            animation: {
+                "slide": "slide 0.5s ease-in-out",
+            },
+            keyframes: {
+                "slide": {
+                    "0%": {
+                        transform: "translateX(-100%)",
+                    },
+                    "100%": {
+                        transform: "translateX(50px)",
+                    },
+                },
+            },
         colors: {
             'jp': {
                 'light-blue': '#5090ea',

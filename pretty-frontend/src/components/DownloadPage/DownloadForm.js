@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { downloadFile } from '../../functions/download'
 import LoadingIcon from '../LoadingIcon'
 
+import { Transition } from '@headlessui/react'
+
 const ethers = require('ethers')
 
 export default function DownloadForm({ setDownloadedFileParts, setContentElement, setStatus }) {
@@ -17,11 +19,23 @@ export default function DownloadForm({ setDownloadedFileParts, setContentElement
         setLoading(false)
     }
 
+    const [showHelp, setShowHelp] = useState(false)
+
     return (
         <div className='flex justify-center items-center m-6 mt-14 md:mt-[130px]'>
-            <div className='space-y-5 text-white  bg-jp-gray rounded-2xl p-3.5 font-semibold'>
-                <div className='flex w-full bg-transparent justify-center'>
-                    <p>Enter File Name</p>
+            <div className='space-y-5 text-white  bg-jp-gray rounded-2xl p-3.5 font-semibold z-50'>
+                <div className='flex justify-between w-full bg-transparent'>
+                    <div className='flex pt-2 pb-2 pl-2'>
+                        <p>Enter file name</p>
+                    </div>
+                    <button
+                        className='pl-4 pr-4 pt-2 pb-2 rounded-xl border bg-jp-dark-blue border-jp-light-blue text-jp-light-blue'
+                        onClick={() => {
+                            setShowHelp(!showHelp)
+                        }}
+                    >
+                        <p className='whitespace-nowrap'>?</p>
+                    </button>
                 </div>
 
                 <form
@@ -46,14 +60,27 @@ export default function DownloadForm({ setDownloadedFileParts, setContentElement
                     >
                         {loading ? (
                             <div className='flex justify-center items-center'>
-                            <LoadingIcon />
+                                <LoadingIcon />
                             </div>
                         ) : (
-                        <p>Download</p>
+                            <p>Download</p>
                         )}
                     </button>
                 </form>
             </div>
+            <Transition
+                show={showHelp}
+                enter='transition ease-in-out duration-300 transform'
+                enterFrom='translate-x-[-100%]'
+                enterTo='translate-x-75%'
+                leave='transition ease-in-out duration-300 transform'
+                leaveFrom='translate-x-75%'
+                leaveTo='translate-x-[-100%]'
+            >
+                <div id='help' className='flex bg-jp-dark-blue text-white font-semibold p-4 m-4 border rounded-2xl'>
+                    <p className=''>Help</p>
+                </div>
+            </Transition>
         </div>
     )
 }

@@ -160,7 +160,7 @@ export function encodeFile(downloadedFileParts, fileName, setStatus, setContentE
             contentElement = <img src={dataType} alt='File Content' />
         } else if (firstChar === '/') {
             dataType = 'data:image/jpeg;base64,' + content
-            contentElement = <img src={dataType} alt='File Content' />
+            contentElement = <img src={dataType} className='max-w-lg max-h-lg' alt='File Content' />
         }
 
         setContentElement(contentElement)
