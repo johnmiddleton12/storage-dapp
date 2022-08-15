@@ -1,6 +1,6 @@
 export default function DownloadProgress({ status, downloadedFileParts }) {
     return (
-        <div className='flex justify-center items-center m-6 md:m-[25%] md:mb-0 mt-14 md:mt-[60px] pb-20'>
+        <div className='flex justify-center items-center m-6 md:m-[25%] md:mb-0 mt-0 md:mt-[60px] pb-20'>
             <div className='space-y-5 text-white  bg-jp-gray rounded-3xl p-3.5 font-semibold'>
                 <div className='flex w-full align-middle bg-transparent justify-center text-center'>
                     <p className='h-full p-2'>Status:</p>
