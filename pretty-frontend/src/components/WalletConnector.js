@@ -92,15 +92,15 @@ export default function WalletConnector({ setProvider, showConnectWallet }) {
                 )
                 if (parseInt(chainId, 16) === 137) {
                     setChainStatus(
-                        <>
-                            <img src={matictokenicon} alt='matic token logo' className='w-6 h-6' />
+                        <div className="flex space-x-1 leading-8">
+                            <img src={matictokenicon} alt='matic token logo' className='w-6 h-full' />
                             <p className='text-white'>Polygon</p>
-                        </>,
+                        </div>,
                     )
                 } else {
                     setChainStatus(
-                        <button onClick={requestSwitchToChain}>
-                            <p className='text-red-600'>Click to Switch to Polygon</p>
+                        <button className='hover:text-red-400 text-red-600' onClick={requestSwitchToChain}>
+                            <p>Click to Switch to Polygon</p>
                         </button>,
                     )
                 }
@@ -178,7 +178,7 @@ export default function WalletConnector({ setProvider, showConnectWallet }) {
                 <div className='bg-jp-gray rounded-2xl box-border text-16 p-0.5 font-semibold h-12'>
                     <button
                         onClick={connectWalletPressed}
-                        className='pl-4 pr-4 pt-2 pb-2 rounded-xl bg-jp-dark-blue border border-jp-light-blue'
+                        className='pl-4 pr-4 pt-2 pb-2 rounded-xl bg-jp-dark-blue border border-jp-dark-blue hover:border-jp-light-blue'
                     >
                         <p className='text-jp-light-blue whitespace-nowrap'>{status}</p>
                     </button>
