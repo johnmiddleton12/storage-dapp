@@ -40,7 +40,7 @@ export default function DownloadForm({
   const [showHelp, setShowHelp] = useState(false)
 
   return (
-    <div className="md:flex justify-between items-center mb-6 md:mb-6 m-6 mt-14 md:mt-[130px]">
+    <div className="md:flex justify-between items-center mb-6 md:mb-6 m-6 md:mt-[130px]">
       <ExplanationDialog
         showExplanation={showExplanation}
         setShowExplanation={setShowExplanation}

@@ -5,8 +5,8 @@ export default function UploadPage() {
   return (
     <div>
       <div className="flex justify-center items-center">
-        <div className="flex justify-center items-center w-full" />
-        <Box className="mt-14 md:mt-[130px]">
+        <div className="flex justify-center items-center md:w-full" />
+        <Box className="md:mt-[130px] m-6">
           <div className="flex w-full bg-transparent justify-center">
             <p>Enter File Name</p>
           </div>
@@ -39,17 +39,16 @@ export default function UploadPage() {
           <BoxButton>
             <p>Refresh</p>
           </BoxButton>
-          <div className="flex justify-center items-center w-full"></div>
         </Box>
-        <div className="flex justify-center items-center w-full" />
+        <div className="flex justify-center items-center md:w-full" />
       </div>
 
       <div className="flex justify-center items-center">
-        <div className="flex justify-center items-center w-full" />
-        <Box className="mt-6">
+        <div className="flex justify-center items-center md:w-full" />
+        <Box className="m-6">
           <p>Transactions</p>
         </Box>
-        <div className="flex justify-center items-center w-full" />
+        <div className="flex justify-center items-center md:w-full" />
       </div>
     </div>
   )
