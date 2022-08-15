@@ -143,14 +143,14 @@ export default function WalletConnector({ setProvider, showConnectWallet }) {
     return (
         <div className='md:flex space-x-1 w-full justify-center md:justify-end md:mr-6 mt-8'>
             <div className='flex justify-center text-16 font-semibold h-12'>
-                <div className='flex justify-center space-x-1 align-middle bg-jp-gray pl-4 pr-4 pt-2 pb-2 rounded-2xl'>
+                <div className='flex leading-8 justify-center space-x-1 align-middle bg-jp-gray pl-4 pr-4 pt-2 pb-2 rounded-2xl'>
                     {showConnectWallet && chainStatus !== null ? (
                         chainStatus
                     ) : (
                         <>
-                            <img src={matictokenicon} alt='matic token logo' className='w-6 h-6' />
-                            <p className='text-white'>Polygon</p>
-                        </>
+                            <img src={matictokenicon} alt='matic token logo' className='w-6 h-full' />
+                            <p className='text-white h-full'>Polygon</p>
+                            </>
                     )}
                 </div>
             </div>

@@ -19,10 +19,10 @@ export default function NavBar ({ setProvider }) {
 
           <DualButton 
             leftSide={
-              <Link to="/" className={`pl-4 pr-4 pt-2 pb-2 rounded-xl ${!(location.pathname.includes('upload')) ? 'bg-gray-700' : ''}`}>Download</Link>
+              <Link to="/" className={`pl-4 pr-4 pt-2 pb-2 rounded-xl ${!(location.pathname.includes('upload')) ? 'bg-gray-700 hover:bg-opacity-80' : 'hover:bg-gray-800'}`}>Download</Link>
             }
             rightSide={
-              <Link to="/upload" className={`pl-4 pr-4 pt-2 pb-2 rounded-xl ${(location.pathname.includes('upload')) ? 'bg-gray-700' : ''}`}>Upload</Link>
+              <Link to="/upload" className={`pl-4 pr-4 pt-2 pb-2 rounded-xl ${(location.pathname.includes('upload')) ? 'bg-gray-700 hover:bg-opacity-80' : 'hover:bg-gray-800'}`}>Upload</Link>
             }
           />
 
