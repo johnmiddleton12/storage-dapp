@@ -58,7 +58,7 @@ export default function UploadPage() {
         <div className="flex justify-center items-center md:w-[80%]" />
         <Box className="m-6">
           <p className="text-center font-semibold">Transactions</p>
-          <div className="w-full bg-transparent justify-center">
+          <div className="flex flex-col items-center w-full bg-transparent justify-center">
             <SingleTransaction status="error" />
             <SingleTransaction status="loading" />
             <SingleTransaction status="success" />
