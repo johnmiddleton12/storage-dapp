@@ -1,16 +1,19 @@
 import { useState, useEffect } from 'react'
 
-import { CheckmarkIcon, ErrorIcon } from '../Generics/Icons'
-import LoadingIcon from '../Generics/LoadingIcon'
+import { CheckmarkIcon, ErrorIcon, LoadingIcon } from '../Generics/Icons'
 
 export default function SingleTransaction({ status }) {
   const [statusIcon, setStatusIcon] = useState(null)
+
+  const retryTransaction = () => {
+    console.log('retrying transaction')
+  };
 
   useEffect(() => {
     if (status === 'success') {
       setStatusIcon(<CheckmarkIcon className="w-full text-green-600" />)
     } else if (status === 'error') {
-      setStatusIcon(<ErrorIcon className="w-full text-red-600" />)
+      setStatusIcon(<ErrorIcon className="w-full text-red-600" onClick={retryTransaction} />)
     } else {
       setStatusIcon(<LoadingIcon className="w-6 h-6" />)
     }

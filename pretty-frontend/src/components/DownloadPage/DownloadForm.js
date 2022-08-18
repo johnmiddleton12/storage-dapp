@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { downloadFile } from '../../functions/download'
-import LoadingIcon from '../Generics/LoadingIcon'
+import { LoadingIcon } from '../Generics/Icons'
 
 import {
   Transition,

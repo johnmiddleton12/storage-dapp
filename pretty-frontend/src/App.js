@@ -14,7 +14,7 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen w-full h-full bg-gray-800">
+      <div className="min-h-[100vh] w-full h-full bg-gray-800">
         {/* <div className="w-full h-full bg-gray-800"> */}
 
         <NavBar setProvider={setProvider}/>
