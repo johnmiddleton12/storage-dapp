@@ -26,6 +26,7 @@ export default function SingleTransaction({ status }) {
         href="https://polygonscan.com/tx/0x88a4ebf9c7003a20c83e79c408483fc834634394b4b5dedaf8c296e0b8749525"
         target="_blank"
         rel="noopener noreferrer"
+        className='hover:text-blue-400 hover:underline'
       >
         0x88a4ebf9c7003a20c83e79c408483fc834634394b4b5dedaf8c296e0b8749525
       </a>
