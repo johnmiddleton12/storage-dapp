@@ -6,7 +6,7 @@ import {
   Transition,
   Dialog
 } from '@headlessui/react'
-import ExplanationDialog from '../ExplanationDialog'
+import ExplanationDialog from './ExplanationDialog'
 import BoxButton from '../Generics/BoxButton'
 
 const ethers = require('ethers')

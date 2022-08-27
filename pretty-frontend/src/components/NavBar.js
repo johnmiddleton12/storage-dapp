@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import matictokenicon from '../matic-token-icon.svg';
-import DualButton from './DualButton';
+import DualButton from './Generics/DualButton';
 import WalletConnector from './WalletConnector';
 
 export default function NavBar ({ setProvider }) {

@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import NavBar from './components/NavBar';
 import DownloadPage from './components/DownloadPage/DownloadPage';
-import UploadPage from './components/UploadPage';
+import UploadPage from './components/UploadPage/UploadPage';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 

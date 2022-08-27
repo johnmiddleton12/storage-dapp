@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import matictokenicon from '../matic-token-icon.svg'
 
 import { connectWallet, getCurrentWalletConnected } from '../functions/connect'
-import DualButton from './DualButton'
+import DualButton from './Generics/DualButton'
 
 export default function WalletConnector({ setProvider, showConnectWallet }) {
   const [walletAddress, setWalletAddress] = useState('')
