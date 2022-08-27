@@ -21,7 +21,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<DownloadPage />} />
-          <Route path="/upload" element={<UploadPage />} />
+          <Route path="/upload" element={<UploadPage provider={provider} />} />
         </Routes>
 
       </div>

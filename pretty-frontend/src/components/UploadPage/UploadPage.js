@@ -2,12 +2,12 @@ import UploadTutorial from './UploadTutorial'
 import UploadForm from './UploadForm'
 import TransactionStatuses from './TransactionStatuses'
 
-export default function UploadPage() {
+export default function UploadPage({ provider }) {
   return (
     <div>
-      <UploadTutorial />
+      {/* <UploadTutorial /> */}
 
-      <UploadForm />
+      <UploadForm provider={provider} />
 
       <TransactionStatuses />
     </div>
