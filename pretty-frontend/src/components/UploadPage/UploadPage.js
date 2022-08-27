@@ -5,7 +5,7 @@ import TransactionStatuses from './TransactionStatuses'
 export default function UploadPage({ provider }) {
   return (
     <div>
-      {/* <UploadTutorial /> */}
+      <UploadTutorial />
 
       <UploadForm provider={provider} />
 

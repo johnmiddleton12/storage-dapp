@@ -1,6 +1,5 @@
 import BoxButton from '../Generics/BoxButton'
 import Box from '../Generics/Box'
-import { CheckmarkIcon, ErrorIcon, LoadingIcon } from '../Generics/Icons'
 import { useEffect, useState } from 'react'
 import FileUpload from '../Generics/FileUpload'
 

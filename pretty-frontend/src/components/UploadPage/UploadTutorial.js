@@ -1,10 +1,25 @@
 import Box from '../Generics/Box'
+
+import { Disclosure } from '@headlessui/react'
+import { DownArrow } from '../Generics/Icons'
+
 export default function UploadTutorial() {
   return (
     <div className="flex justify-center items-center">
-      <Box className="md:mt-[130px] m-6 md:w-[60%]">
+        <Disclosure>
+          {({ open }) => (
+      <Box className={`md:mt-[130px] m-6 ${open ? 'md:w-[60%]' : 'md:w-auto'}`}>
         <div className="flex font-thin flex-col text-center items-center justify-center">
-          <p className="w-full m-2 font-semibold">Tutorial</p>
+          <Disclosure.Button className="flex">
+          <p className="w-full font-semibold">Tutorial</p>
+          <DownArrow
+                  className={`${
+                    open ? 'rotate-180 transform' : ''
+                  } h-6 w-6 text-white`}
+                />
+          </Disclosure.Button>
+
+          <Disclosure.Panel>
           <p className="w-full m-2">
             Information stored on the blockchain is immutable. This means that
             once a transaction is sent, it and the data it contains cannot be
@@ -97,8 +112,11 @@ export default function UploadTutorial() {
             </a>{' '}
             if you have any questions.
           </p>
+          </Disclosure.Panel>
         </div>
       </Box>
+          )}
+        </Disclosure>
     </div>
   )
 }
