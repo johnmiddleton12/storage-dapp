@@ -2,10 +2,7 @@ import { useState } from 'react'
 import { downloadFile } from '../../functions/download'
 import { LoadingIcon } from '../Generics/Icons'
 
-import {
-  Transition,
-  Dialog
-} from '@headlessui/react'
+import { Transition } from '@headlessui/react'
 import ExplanationDialog from './ExplanationDialog'
 import BoxButton from '../Generics/BoxButton'
 
@@ -20,8 +17,7 @@ export default function DownloadForm({
 
   const [loading, setLoading] = useState(false)
 
-  const provider =
-    new ethers.providers.getDefaultProvider(137)
+  const provider = new ethers.providers.getDefaultProvider(137)
 
   const downloadFileMain = async () => {
     setLoading(true)
@@ -35,8 +31,7 @@ export default function DownloadForm({
     setLoading(false)
   }
 
-  const [showExplanation, setShowExplanation] =
-    useState(false)
+  const [showExplanation, setShowExplanation] = useState(false)
   const [showHelp, setShowHelp] = useState(false)
 
   return (
@@ -63,9 +58,7 @@ export default function DownloadForm({
               setShowHelp(!showHelp)
             }}
           >
-            <p className="whitespace-nowrap text-jp-light-blue">
-              ?
-            </p>
+            <p className="whitespace-nowrap text-jp-light-blue">?</p>
           </button>
         </div>
 
@@ -119,22 +112,17 @@ export default function DownloadForm({
           >
             <p className="font-semibold">Help</p>
             <p className="font-thin">
-              <b>1</b>. Enter the file name to
-              download
+              <b>1</b>. Enter the file name to download
             </p>
             <p className="font-thin">
-              <b>2</b>. Click on the download
-              button
+              <b>2</b>. Click on the download button
             </p>
             <p className="font-thin">
-              <b>Sample Files</b>: songSmall7,
-              incubator, Sunset-1
+              <b>Sample Files</b>: songSmall7, incubator, Sunset-1
             </p>
             <p className="font-thin">
               <b>Note</b>: Enter the file name{' '}
-              <b className="font-semibold">
-                exactly!
-              </b>
+              <b className="font-semibold">exactly!</b>
             </p>
           </div>
         </Transition>
