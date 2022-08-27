@@ -8,8 +8,8 @@ export default function UploadPage() {
     <div>
       <div className="flex justify-center items-center">
         <Box className="md:mt-[130px] m-6 md:w-[60%]">
-          <div className="flex flex-col text-center items-center justify-center">
-            <p className="w-full m-2">Tutorial</p>
+          <div className="flex font-thin flex-col text-center items-center justify-center">
+            <p className="w-full m-2 font-semibold">Tutorial</p>
             <p className="w-full m-2">
               Information stored on the blockchain is immutable. This means that
               once a transaction is sent, it and the data it contains cannot be
