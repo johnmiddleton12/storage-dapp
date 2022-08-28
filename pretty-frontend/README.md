@@ -39,9 +39,11 @@ Information stored on the blockchain is immutable. This means that once a transa
 ### To-Do
 
 - [ ] Finish Implementing the Upload Functionality
+- [ ] Add Visualization of the File Structure on-chain (using 2d array)
 - [ ] Add Testing
 - [ ] Add Code Documentation
-- [ ] Increase Contract Security (file hash as name, name-checking)
+- [ ] Increase Contract Security (file hash as name, name-checking, password/signing protection)
+- [ ] Add Download for Local Uploader Python script, for automated transacting
 
 ### Contact
 
