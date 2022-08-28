@@ -4,6 +4,8 @@ ChainLoader is a file storage application designed for use with the [Polygon](ht
 
 It is deployed at [https://storage-dapp.herokuapp.com](https://storage-dapp.herokuapp.com).
 
+The motivation of this app was to create a proof of concept of the possibility of uploading relatively large, commonly used types of files to the Polygon blockchain. Since the data stored in the Polygon blockchain is immutable, this app essentially allows for the permanent storage of files. While this is not a secure solution, the proof of concept is there. This implementation calls a contract deployed on the Polygon blockchain due to the significantly lower gas costs, however, everything involved in this application could be theoretically deployed to a different blockchain, including Ethereum Mainnet. 
+
 Features include:
 
 - File storage and retrieval
