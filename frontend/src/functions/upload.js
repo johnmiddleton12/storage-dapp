@@ -5,6 +5,7 @@ const ethers = require('ethers')
 let fileName;
 let fileExtension;
 let fileLength;
+let fileParts;
 
 // read the file into buffer
 function readFile(file) {
@@ -28,6 +29,7 @@ async function divideFileIntoParts(file) {
     chunks_parts.push(chunks.slice(i, i + 500))
   }
   console.log('chunks_parts', chunks_parts)
+  fileParts = chunks_parts
   return chunks_parts
 }
 
@@ -117,4 +119,30 @@ export async function createNewFileTemplate(provider) {
     let transaction = await contract.newFileTemplate(fileName, fileExtension, fileLength);
     console.log('File Created: ' + fileName);
     return transaction;
+}
+
+export async function createNewFileArrays(provider) {
+
+  let fileFinalArrayLength = ((fileParts.length * 500) - 500 + (fileParts[fileParts.length - 1].length)) % 10000; 
+
+    let signer = provider.getSigner();
+    let contract = new ethers.Contract(StorageContractAddress, StorageAbi.abi, signer)
+
+    let transactions = [];
+
+    if (fileLength > 0) {
+        for (let i = 0; i < fileLength - 1; i++) {
+            let transaction = await contract.newFileArray(fileName, i, 10000);
+            transactions.push(transaction);
+            console.log('File Array Created: ' + fileName + " " + i);
+        }
+        let transaction = await contract.newFileArray(fileName, fileLength - 1, fileFinalArrayLength);
+        transactions.push(transaction);
+        console.log('File Array Created: ' + fileName + " " + fileLength - 1);
+    } else {
+        let transaction = await contract.newFileArray(fileName, 0, fileFinalArrayLength);
+        transactions.push(transaction);
+        console.log('File Array Created: ' + fileName + " " + 0);
+    }
+    return transactions;
 }

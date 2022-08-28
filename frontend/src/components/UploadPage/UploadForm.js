@@ -3,7 +3,7 @@ import Box from '../Generics/Box'
 import { useEffect, useState } from 'react'
 import FileUpload from '../Generics/FileUpload'
 
-import { checkFileExists, createNewFileTemplate } from '../../functions/upload'
+import { checkFileExists, createNewFileTemplate, createNewFileArrays } from '../../functions/upload'
 
 export default function UploadForm({ provider, transactions, setTransactions }) {
 
@@ -53,7 +53,7 @@ export default function UploadForm({ provider, transactions, setTransactions }) 
   useEffect(() => {
     console.log('file', file)
     checkIfFileExists(file, provider)
-  }, [file])
+  }, [file, transactions])
 
   const handleCreateFileTemplate = async () => {
     setLoading(true)
@@ -63,6 +63,22 @@ export default function UploadForm({ provider, transactions, setTransactions }) 
         console.log('res', res)
         setLoading(false)
       })
+      .catch(err => {
+        console.log('err', err)
+        setLoading(false)
+      }
+      )
+  }
+
+  const handleCreateFileArrays = async () => {
+    setLoading(true)
+    createNewFileArrays(provider)
+      .then(res => {
+        setTransactions(transactions.concat(res))
+        console.log('res', res)
+        setLoading(false)
+      }
+      )
       .catch(err => {
         console.log('err', err)
         setLoading(false)
@@ -98,6 +114,7 @@ export default function UploadForm({ provider, transactions, setTransactions }) 
           loading={loading}
           disabled={!templateExists || arraysExist}
           className="flex justify-center"
+          onClick={handleCreateFileArrays}
         >
           <p>Create File Arrays</p>
         </BoxButton>

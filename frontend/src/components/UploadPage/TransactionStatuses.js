@@ -3,33 +3,44 @@ import Box from '../Generics/Box'
 import SingleTransaction from './SingleTransaction'
 
 export default function TransactionStatuses({ transactions }) {
-
   const [statuses, setStatuses] = useState({})
 
   // function to handle status of transaction
-  const handleStatus = (transaction) => {
-    transaction.wait()
+  const handleStatus = transaction => {
+    try {
+    transaction
+      .wait()
       .then(() => {
         setStatuses({ ...statuses, [transaction.hash]: 'success' })
-      }
-      )
+      })
       .catch(() => {
         setStatuses({ ...statuses, [transaction.hash]: 'error' })
-      }
-      )
+      })
+    } catch (err) {
+      console.log('transaction -', transaction);
+      console.log('err', err)
+    }
   }
 
   // every transaction is checked for status
   useEffect(() => {
     transactions.forEach(transaction => {
       handleStatus(transaction)
-    }
-    )
-  }
-  , [transactions])
+    })
+  }, [transactions])
 
-  const retryTransaction = (hash) => {
-    console.log('retryTransaction', hash)
+  const retryTransaction = hash => {
+    const transaction = transactions.find(
+      transaction => transaction.hash === hash
+    )
+    transaction
+      .wait()
+      .then(() => {
+        setStatuses({ ...statuses, [transaction.hash]: 'success' })
+      })
+      .catch(() => {
+        setStatuses({ ...statuses, [transaction.hash]: 'error' })
+      })
   }
 
   return (
@@ -41,7 +52,6 @@ export default function TransactionStatuses({ transactions }) {
           Click the error icon on a failed transaction to retry
         </p>
         <div className="flex flex-col items-center w-full bg-transparent justify-center">
-
           {transactions.map(transaction => (
             <SingleTransaction
               key={transaction.hash}
@@ -50,7 +60,6 @@ export default function TransactionStatuses({ transactions }) {
               retryTransaction={retryTransaction}
             />
           ))}
-
         </div>
       </Box>
       <div className="flex justify-center items-center md:w-[80%]" />
