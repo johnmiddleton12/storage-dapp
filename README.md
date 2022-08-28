@@ -33,17 +33,21 @@ Information stored on the blockchain is immutable. This means that once a transa
     .
     ├── backend                 # Backend code
     |   ├── contracts            # Contracts
-    |   |   ├── byteStorage.sol   # Byte Storage Contract source code
+    |   |   └── byteStorage.sol   # Byte Storage Contract source code
     |   ├── scripts              # Scripts for deployment - copies artifacts (ABI) to the frontend folder
-    |   ├── test                 # Contract tests
+    |   └── test                 # Contract tests
     ├── frontend                # The React-based frontend used to interact with the contract
     │   ├── src                  # The source code for the frontend
+    │   │   ├── artifacts            # The compiled artifacts for the frontend generated using Hardhat
+    │   │   ├── components           # The React components for the frontend
+    │   │   ├── functions            # The functions to interact with the smart contract
+    │   │   └── App.js               
     │   └── ...                 # etc.
     ├── local-scripts           # Local scripts for local contract interaction
     │   ├── inputs               # Sample Inputs
     │   ├── outputs              # Sample Outputs
     │   ├── *.py                 # Python scripts
-    │   ├── requirements.txt     # Requirements file for python modules
+    │   └── requirements.txt     # Requirements file for python modules
     ├── README.md               # This file
     └── ...                     # etc.
 
