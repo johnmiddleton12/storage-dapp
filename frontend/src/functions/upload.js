@@ -1,6 +1,6 @@
 import StorageAbi from '../artifacts/contracts/byteStorage.sol/ByteStorage.json';
+import { StorageContractAddress } from '../constants/constants.js'
 const ethers = require('ethers')
-const StorageContractAddress = '0x04BD1EAA738f1F79be86fAF63E79f1809Ac6C12D'
 
 // read the file into buffer
 function readFile(file) {
