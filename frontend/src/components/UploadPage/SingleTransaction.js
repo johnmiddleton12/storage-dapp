@@ -2,12 +2,9 @@ import { useState, useEffect } from 'react'
 
 import { CheckmarkIcon, ErrorIcon, LoadingIcon } from '../Generics/Icons'
 
-export default function SingleTransaction({ status }) {
-  const [statusIcon, setStatusIcon] = useState(null)
+export default function SingleTransaction({ status, hash, retryTransaction }) {
 
-  const retryTransaction = () => {
-    console.log('retrying transaction')
-  };
+  const [statusIcon, setStatusIcon] = useState(null)
 
   useEffect(() => {
     if (status === 'success') {
@@ -23,12 +20,12 @@ export default function SingleTransaction({ status }) {
     <div className="flex justify-center w-full m-2 p-3.5 text-jp-light-blue bg-jp-dark-blue rounded-2xl border border-jp-light-blue">
         <div className="w-full overflow-ellipsis overflow-hidden whitespace-nowrap">
       <a
-        href="https://polygonscan.com/tx/0x88a4ebf9c7003a20c83e79c408483fc834634394b4b5dedaf8c296e0b8749525"
+        href={`https://polygonscan.com/tx/${hash}`}
         target="_blank"
         rel="noopener noreferrer"
         className='hover:text-blue-400 hover:underline'
       >
-        0x88a4ebf9c7003a20c83e79c408483fc834634394b4b5dedaf8c296e0b8749525
+        {hash}
       </a>
         </div>
       {statusIcon}

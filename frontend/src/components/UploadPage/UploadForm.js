@@ -5,7 +5,7 @@ import FileUpload from '../Generics/FileUpload'
 
 import { checkFileExists, createNewFileTemplate } from '../../functions/upload'
 
-export default function UploadForm({ provider }) {
+export default function UploadForm({ provider, transactions, setTransactions }) {
 
   const [file, setSelectedFile] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -59,6 +59,7 @@ export default function UploadForm({ provider }) {
     setLoading(true)
     createNewFileTemplate(provider)
       .then(res => {
+        setTransactions([...transactions, res])
         console.log('res', res)
         setLoading(false)
       })
