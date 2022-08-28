@@ -8,7 +8,7 @@ export default function UploadTutorial() {
     <div className="flex justify-center items-center">
         <Disclosure>
           {({ open }) => (
-      <Box className={`md:mt-[130px] m-6 ${open ? 'md:w-[60%]' : 'md:w-auto'}`}>
+      <Box className={`md:mt-[60px] m-6 ${open ? 'md:w-[60%]' : 'md:w-auto'}`}>
         <div className="flex font-thin flex-col text-center items-center justify-center">
           <Disclosure.Button className="flex">
           <p className="w-full font-semibold">Tutorial</p>
@@ -20,6 +20,7 @@ export default function UploadTutorial() {
           </Disclosure.Button>
 
           <Disclosure.Panel>
+            <div className="flex flex-col justify-center items-center">
           <p className="w-full m-2">
             Information stored on the blockchain is immutable. This means that
             once a transaction is sent, it and the data it contains cannot be
@@ -112,6 +113,7 @@ export default function UploadTutorial() {
             </a>{' '}
             if you have any questions.
           </p>
+            </div>
           </Disclosure.Panel>
         </div>
       </Box>

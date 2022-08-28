@@ -10,6 +10,9 @@ export default function UploadForm({ provider }) {
 
   const [loading, setLoading] = useState(false)
 
+  const [templateExists, setTemplateExists] = useState(false)
+  const [arraysExist, setArraysExist] = useState(false)
+
   const checkIfFileExists = () => {
     if (file) {
       setLoading(true)
@@ -27,7 +30,7 @@ export default function UploadForm({ provider }) {
 
   useEffect(() => {
     console.log('file', file)
-    checkIfFileExists()
+    checkIfFileExists(file, provider)
   }, [file])
 
   return (
@@ -36,6 +39,10 @@ export default function UploadForm({ provider }) {
       <Box className="m-6">
         <div className="flex w-full bg-transparent justify-center">
           <p>Upload File</p>
+        </div>
+
+        <div className="flex w-full bg-transparent justify-center">
+          <p className="text-red-600">Status:</p>
         </div>
 
         <FileUpload setSelectedFile={setSelectedFile} />
