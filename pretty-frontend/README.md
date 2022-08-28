@@ -28,6 +28,23 @@ Information stored on the blockchain is immutable. This means that once a transa
 * Downloading files does not require a crypto wallet, as the Polygon RPC URI is used as the node/access point for the smart contract calls.
 * Extensive tutorials are accessible within the app.
 
+### File Structure
+
+    .
+    ├── backend                 # Backend code
+    |   ├── contracts            # Contracts
+    |   |   ├── byteStorage.sol   # Byte Storage Contract source code
+    |   ├── scripts              # Scripts for deployment
+    |   ├── test                 # Contract tests
+    ├── frontend                # The React-based frontend used to interact with the contract
+    │   ├── src                  # The source code for the frontend
+    │   └── ...                 # etc.
+    ├── README.md               # This file
+    ├── *.py                    # Python scripts for local contract interaction
+    ├── requirements.txt        # Module requirements for the local scripts
+    ├── package.json            # The package.json file
+    └── ...                     # etc.
+
 ### Technologies Used
 
 * [React](https://reactjs.org/)
