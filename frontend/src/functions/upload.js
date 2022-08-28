@@ -1,6 +1,10 @@
-import StorageAbi from '../artifacts/contracts/byteStorage.sol/ByteStorage.json';
+import StorageAbi from '../artifacts/contracts/byteStorage.sol/ByteStorage.json'
 import { StorageContractAddress } from '../constants/constants.js'
 const ethers = require('ethers')
+
+let fileName;
+let fileExtension;
+let fileLength;
 
 // read the file into buffer
 function readFile(file) {
@@ -27,6 +31,7 @@ async function divideFileIntoParts(file) {
   return chunks_parts
 }
 
+// get file info, e.g., extension, array count, including if it exists
 export async function getFileInfo(fileName, provider) {
   fileName = fileName.split('.')[0]
   let contract = new ethers.Contract(
@@ -38,6 +43,7 @@ export async function getFileInfo(fileName, provider) {
   return fileInfo
 }
 
+// estimate gas cost of creating a new file template
 export async function estimateNewFileGas(
   fileName,
   fileExtension,
@@ -49,28 +55,25 @@ export async function estimateNewFileGas(
     StorageAbi.abi,
     provider
   )
-  console.log('Uploading file: ' + fileName)
-
   let createFileCost = await contract.estimateGas.newFileTemplate(
     fileName,
     fileExtension,
     fileLength
   )
   let gasPrice = ethers.BigNumber.from(await provider.getGasPrice())
-
-  // convert gas to ether
   let createFileCostInEther = ethers.utils.formatEther(
     createFileCost.mul(gasPrice)
   )
-
-  console.log('File Cost Estimate: ' + createFileCostInEther + ' Matic')
   return createFileCostInEther
 }
 
+// check if file exists in storage contract, and return if
+// the template or arrays exist, and possibly the estimate
+// of creating them as well as the array count
 export async function checkFileExists(file, provider) {
 
-  // template exists, arrays exist, gas estimate
-  let status = [false, false, 0]
+  // template exists, arrays exist, gas estimate, array count
+  let status = [false, false, 0, 0]
 
   let fileParts = await divideFileIntoParts(file)
 
@@ -86,29 +89,32 @@ export async function checkFileExists(file, provider) {
       file_array_count,
       provider
     )
-    console.log(
-      `File template does not exist on the blockchain, estimated Gas to create it: ${gas_estimate.substring(
-        0,
-        6
-      )} Matic`
-    )
-    status = [false, false, gas_estimate]
+
+    fileName = file_name
+    fileExtension = file_extension
+    fileLength = file_array_count
+
+    status = [false, false, gas_estimate.substring(0, 6)]
   } else {
-    console.log('File Template Exists on the blockchain')
     status[0] = true
     // TODO: this is not a permanent solution
     if (fileInfo[3] === 0) {
       let array_count = parseInt((fileParts.length * 500) / 10000) + 1
-      console.log(
-        'arrays have not been created, ' +
-          array_count +
-          ' arrays need to be created (each costs .3-.7 matic)'
-      )
       status[1] = false
+      status[3] = array_count
     } else {
-      console.log('arrays have been created')
       status[1] = true
     }
   }
+  console.log(status)
   return status
+}
+
+// create a new file template
+export async function createNewFileTemplate(provider) {
+    let signer = provider.getSigner();
+    let contract = new ethers.Contract(StorageContractAddress, StorageAbi.abi, signer)
+    let transaction = await contract.newFileTemplate(fileName, fileExtension, fileLength);
+    console.log('File Created: ' + fileName);
+    return transaction;
 }
