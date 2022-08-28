@@ -10,7 +10,7 @@ Features include:
 - Optimized transaction costs
 - Simplified process for file templating and division
 
-### Notes
+## Notes
 
 * The app is currently in development.
 * The app is designed to be used with a contract deployed on the [Polygon](https://polygon.technology/) network.
@@ -19,7 +19,7 @@ Features include:
 
 ### Technologies Used
 
-* [React](https://reactjs.org/)] 
+* [React](https://reactjs.org/)
 * [React Router](https://reacttraining.com/react-router/web/guides/quick-start)
 * [Ethers.js](https://www.npmjs.com/package/ethers)
 * [Tailwind CSS](https://tailwindcss.com/)
