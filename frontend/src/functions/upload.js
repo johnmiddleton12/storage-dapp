@@ -68,7 +68,9 @@ export async function estimateNewFileGas(
 }
 
 export async function checkFileExists(file, provider) {
-  let status = ''
+
+  // template exists, arrays exist, gas estimate
+  let status = [false, false, 0]
 
   let fileParts = await divideFileIntoParts(file)
 
@@ -90,13 +92,10 @@ export async function checkFileExists(file, provider) {
         6
       )} Matic`
     )
-    status =
-      'File template does not exist on the blockchain, estimated Gas to create it: ' +
-      gas_estimate.substring(0, 6) +
-      ' Matic'
+    status = [false, false, gas_estimate]
   } else {
     console.log('File Template Exists on the blockchain')
-    status = 'File Template Exists on the blockchain'
+    status[0] = true
     // TODO: this is not a permanent solution
     if (fileInfo[3] === 0) {
       let array_count = parseInt((fileParts.length * 500) / 10000) + 1
@@ -105,14 +104,10 @@ export async function checkFileExists(file, provider) {
           array_count +
           ' arrays need to be created (each costs .3-.7 matic)'
       )
-      status =
-        status +
-        ', arrays have not been created, ' +
-        array_count +
-        ' arrays need to be created (each costs .3-.7 matic)'
+      status[1] = false
     } else {
       console.log('arrays have been created')
-      status = status + ', arrays have been created'
+      status[1] = true
     }
   }
   return status

@@ -10,6 +10,8 @@ export default function UploadForm({ provider }) {
 
   const [loading, setLoading] = useState(false)
 
+  const [status, setStatus] = useState(null)
+
   const [templateExists, setTemplateExists] = useState(false)
   const [arraysExist, setArraysExist] = useState(false)
 
@@ -19,14 +21,32 @@ export default function UploadForm({ provider }) {
       checkFileExists(file, provider)
         .then(res => {
           console.log('res', res)
+          setTemplateExists(res[0])
+          setArraysExist(res[1])
           setLoading(false)
         })
         .catch(err => {
           console.log('err', err)
           setLoading(false)
         })
+    } else {
+      setStatus(null)
     }
   }
+
+  useEffect(() => {
+    if (file) {
+      if (templateExists && arraysExist) {
+        setStatus('File template and arrays exist')
+      } else if (templateExists) {
+        setStatus('File template exists, arrays need to be created')
+      } else {
+        setStatus('File template does not exist and needs to be created')
+      }
+    } else {
+      setStatus(null)
+    }
+  }, [templateExists, arraysExist])
 
   useEffect(() => {
     console.log('file', file)
@@ -41,25 +61,47 @@ export default function UploadForm({ provider }) {
           <p>Upload File</p>
         </div>
 
-        <div className="flex w-full bg-transparent justify-center">
-          <p className="text-red-600">Status:</p>
-        </div>
+        {status && (
+          <div className="flex w-full bg-transparent justify-center">
+            <p className="text-red-600">Status: {status}</p>
+          </div>
+        )}
 
         <FileUpload setSelectedFile={setSelectedFile} />
 
-        <BoxButton loading={loading} className="flex justify-center">
+        <BoxButton
+          loading={loading}
+          disabled={templateExists || !file}
+          className="flex justify-center"
+        >
           <p>Create File Template</p>
         </BoxButton>
-        <BoxButton loading={loading} className="flex justify-center">
+        <BoxButton
+          loading={loading}
+          disabled={!templateExists || arraysExist}
+          className="flex justify-center"
+        >
           <p>Create File Arrays</p>
         </BoxButton>
-        <BoxButton loading={loading} className="flex justify-center">
+        <BoxButton
+          loading={loading}
+          disabled={!templateExists || !arraysExist}
+          className="flex justify-center"
+        >
           <p>Estimate Gas to Upload</p>
         </BoxButton>
-        <BoxButton loading={loading} className="flex justify-center">
+        <BoxButton
+          loading={loading}
+          disabled={!templateExists || !arraysExist}
+          className="flex justify-center"
+        >
           <p>Upload File</p>
         </BoxButton>
-        <BoxButton loading={loading} className="flex justify-center" onClick={checkIfFileExists}>
+        <BoxButton
+          loading={loading}
+          className="flex justify-center"
+          onClick={checkIfFileExists}
+        >
           <p>Refresh</p>
         </BoxButton>
       </Box>
