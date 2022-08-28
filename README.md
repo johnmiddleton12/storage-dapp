@@ -34,7 +34,7 @@ Information stored on the blockchain is immutable. This means that once a transa
     ├── backend                 # Backend code
     |   ├── contracts            # Contracts
     |   |   ├── byteStorage.sol   # Byte Storage Contract source code
-    |   ├── scripts              # Scripts for deployment
+    |   ├── scripts              # Scripts for deployment - copies artifacts (ABI) to the frontend folder
     |   ├── test                 # Contract tests
     ├── frontend                # The React-based frontend used to interact with the contract
     │   ├── src                  # The source code for the frontend
@@ -50,6 +50,7 @@ Information stored on the blockchain is immutable. This means that once a transa
 ### Technologies Used
 
 * [React](https://reactjs.org/)
+* [Hardhat](https://hardhat.org/)
 * [React Router](https://reacttraining.com/react-router/web/guides/quick-start)
 * [Ethers.js](https://www.npmjs.com/package/ethers)
 * [Tailwind CSS](https://tailwindcss.com/)
