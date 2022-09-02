@@ -104,7 +104,7 @@ export default function WalletConnector({ setProvider, showConnectWallet }) {
         } else {
           setChainStatus(
             <button
-              className="hover:text-red-400 text-red-600"
+              className="hover:text-red-400 text-red-600 whitespace-nowrap"
               onClick={requestSwitchToChain}
             >
               <p>Click to Switch to Polygon</p>
