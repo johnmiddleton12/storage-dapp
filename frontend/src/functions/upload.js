@@ -77,9 +77,10 @@ export async function checkFileExists(file, provider) {
   // template exists, arrays exist, gas estimate, array count
   let status = [false, false, 0, 0]
 
-  let fileParts = await divideFileIntoParts(file)
+  fileParts = await divideFileIntoParts(file)
 
   let file_name = file.name.split('.')[0]
+  fileName = file_name
   let fileInfo = await getFileInfo(file_name, provider)
   console.log(fileInfo)
   if (fileInfo[0] === 'No File Found for that Name') {
@@ -92,7 +93,6 @@ export async function checkFileExists(file, provider) {
       provider
     )
 
-    fileName = file_name
     fileExtension = file_extension
     fileLength = file_array_count
 
@@ -107,6 +107,7 @@ export async function checkFileExists(file, provider) {
     } else {
       status[1] = true
     }
+
   }
   console.log(status)
   return status
@@ -145,4 +146,67 @@ export async function createNewFileArrays(provider) {
         console.log('File Array Created: ' + fileName + " " + 0);
     }
     return transactions;
+}
+
+export async function uploadNewFileEstimateGas(provider) {
+
+    let arrayIndex = 0;
+    let startIndex;
+    let endIndex;
+    let count = 0;
+
+    let signer = provider.getSigner();
+    let contract = new ethers.Contract(StorageContractAddress, StorageAbi.abi, signer)
+
+    let totalGas = 0;
+
+    // map each element in each file part to hexlify
+    let filePartsHex = fileParts.map(filePart => {
+        let filePartHex = filePart.map(filePartElement => {
+            // return ethers.utils.hexlify(filePartElement);
+            return ethers.utils.hexZeroPad(ethers.utils.hexlify(filePartElement), 32);
+        }
+        );
+        return filePartHex;
+    });
+
+    console.log('File Parts: ' + fileParts.length);
+    console.log('File Parts Hex Length: ' + filePartsHex.length);
+
+    for (let i = 0; i < fileParts.length; i++) {
+
+        // setCompletion(Math.floor((i / fileParts.length) * 100));
+
+        startIndex = count * 500;
+        endIndex = startIndex + fileParts[i].length;
+
+        // console.log('Array Index: ' + arrayIndex);
+        // console.log('Indexing from: ' + startIndex + ' to ' + endIndex);
+        // console.log('Uploading ' + filePartsHex[i].length + ' size data in a ' + (endIndex - startIndex) + ' size spot');
+
+        let gas_limit = await contract.estimateGas.setFileArray(fileName, arrayIndex, startIndex, endIndex, filePartsHex[i]);
+        let gas_price = await provider.getGasPrice();
+
+        let gas_estimate = ethers.BigNumber.from(gas_limit).mul(ethers.BigNumber.from(gas_price));
+        // console.log('Gas Estimate: ' + gas_estimate.toString());
+        totalGas += parseFloat(ethers.utils.formatEther(gas_estimate));
+        // console.log('Total Gas Estimate: ' + totalGas + " Matic");
+
+        count++;
+        if (count === 20) {
+            arrayIndex++;
+            count = 0;
+        }
+    }
+
+    // setCompletion(100);
+
+    // convert gas to ether
+    // let totalGasInEther = ethers.utils.formatEther(totalGas);
+    // let totalGasInEther = totalGas;
+
+
+    // console.log('File Cost Estimate: ' + totalGasInEther + " Matic");
+    return totalGas;
+
 }

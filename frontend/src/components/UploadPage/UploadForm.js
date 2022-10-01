@@ -3,7 +3,7 @@ import Box from '../Generics/Box'
 import { useEffect, useState } from 'react'
 import FileUpload from '../Generics/FileUpload'
 
-import { checkFileExists, createNewFileTemplate, createNewFileArrays } from '../../functions/upload'
+import { checkFileExists, createNewFileTemplate, createNewFileArrays, uploadNewFileEstimateGas } from '../../functions/upload'
 
 export default function UploadForm({ provider, transactions, setTransactions }) {
 
@@ -14,6 +14,7 @@ export default function UploadForm({ provider, transactions, setTransactions }) 
   const [arraysExist, setArraysExist] = useState(false)
   const [arrayCount, setArrayCount] = useState(0)
   const [gasEstimate, setGasEstimate] = useState(0)
+  const [uploadGasEstimate, setUploadGasEstimate] = useState(0)
 
   const checkIfFileExists = () => {
     if (file) {
@@ -38,7 +39,9 @@ export default function UploadForm({ provider, transactions, setTransactions }) 
 
   useEffect(() => {
     if (file) {
-      if (templateExists && arraysExist) {
+      if (templateExists && arraysExist && uploadGasEstimate > 0) {
+        setStatus('File template and arrays exist, gas estimate: ' + uploadGasEstimate.toString().substring(0, 6) + ' MATIC')
+      } else if (templateExists && arraysExist) {
         setStatus('File template and arrays exist')
       } else if (templateExists) {
         setStatus(`File template exists, ${arrayCount} arrays need to be created (0.3-0.7 matic each)`)
@@ -48,7 +51,7 @@ export default function UploadForm({ provider, transactions, setTransactions }) 
     } else {
       setStatus(null)
     }
-  }, [file, templateExists, arraysExist])
+  }, [file, templateExists, arraysExist, uploadGasEstimate])
 
   useEffect(() => {
     console.log('file', file)
@@ -84,6 +87,20 @@ export default function UploadForm({ provider, transactions, setTransactions }) 
         setLoading(false)
       }
       )
+  }
+
+  const handleUploadNewFileEstimateGas = async () => {
+    setLoading(true)
+    await checkFileExists(file, provider)
+    uploadNewFileEstimateGas(provider)
+      .then(res => {
+        setUploadGasEstimate(res)
+        console.log('res', res)
+      })
+      .catch(err => {
+        console.log('err', err)
+      })
+    setLoading(false)
   }
 
   return (
@@ -128,6 +145,7 @@ export default function UploadForm({ provider, transactions, setTransactions }) 
           loading={loading}
           disabled={!templateExists || !arraysExist}
           className="flex justify-center"
+          onClick={handleUploadNewFileEstimateGas}
         >
           <p>Estimate Gas to Upload</p>
         </BoxButton>
