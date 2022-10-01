@@ -94,9 +94,15 @@ export default function UploadForm({ provider, transactions, setTransactions }) 
           <p>Upload File</p>
         </div>
 
-        {status && (
+        {provider._isProvider ? (
+        status && (
           <div className="flex w-full bg-transparent justify-center whitespace-nowrap">
             <p className="text-red-600">Status: {status}</p>
+          </div>
+        )
+        ) : (
+          <div className="flex w-full bg-transparent justify-center whitespace-nowrap">
+            <p className="text-red-600">Connect Wallet to Upload</p>
           </div>
         )}
 
