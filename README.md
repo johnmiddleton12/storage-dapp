@@ -64,6 +64,7 @@ Information stored on the blockchain is immutable. This means that once a transa
 
 - [ ] Finish Implementing the Upload Functionality
 - [ ] Fix upload functionality for extremely small files
+- [ ] Add more file types in viewer on download page
 - [ ] Add Visualization of the File Structure on-chain (using 2d array)
 - [ ] Add Testing
 - [ ] Add Code Documentation
