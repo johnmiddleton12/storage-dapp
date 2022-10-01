@@ -80,7 +80,6 @@ export async function checkFileExists(file, provider) {
   fileParts = await divideFileIntoParts(file)
 
   let file_name = file.name.split('.')[0]
-  fileName = file_name
   let fileInfo = await getFileInfo(file_name, provider)
   console.log(fileInfo)
   if (fileInfo[0] === 'No File Found for that Name') {
@@ -93,6 +92,7 @@ export async function checkFileExists(file, provider) {
       provider
     )
 
+    fileName = file_name
     fileExtension = file_extension
     fileLength = file_array_count
 
@@ -107,6 +107,13 @@ export async function checkFileExists(file, provider) {
     } else {
       status[1] = true
     }
+
+    let file_extension = file.name.split('.')[1]
+    let file_array_count = parseInt((fileParts.length * 500) / 10000) + 1
+
+    fileName = file_name
+    fileExtension = file_extension
+    fileLength = file_array_count
 
   }
   console.log(status)
@@ -209,4 +216,45 @@ export async function uploadNewFileEstimateGas(provider) {
     // console.log('File Cost Estimate: ' + totalGasInEther + " Matic");
     return totalGas;
 
+}
+
+export async function uploadNewFile(provider) {
+
+    let arrayIndex = 0;
+    let startIndex;
+    let endIndex;
+    let count = 0;
+
+    let transactions = [];
+
+    let signer = provider.getSigner();
+    let contract = new ethers.Contract(StorageContractAddress, StorageAbi.abi, signer)
+
+    let filePartsHex = fileParts.map(filePart => {
+        let filePartHex = filePart.map(filePartElement => {
+            return ethers.utils.hexZeroPad(ethers.utils.hexlify(filePartElement), 32);
+        });
+        return filePartHex;
+    });
+
+    for (let i = 0; i < fileParts.length; i++) {
+
+        // setCompletion(Math.floor((i / fileParts.length) * 100));
+        startIndex = count * 500;
+        endIndex = startIndex + fileParts[i].length;
+        console.log('Array Index: ' + arrayIndex);
+        console.log('Indexing from: ' + startIndex + ' to ' + endIndex);
+        console.log('Uploading ' + filePartsHex[i].length + ' size data in a ' + (endIndex - startIndex) + ' size spot');
+        let transaction = await contract.setFileArray(fileName, arrayIndex, startIndex, endIndex, filePartsHex[i]);
+        transactions.push(transaction);
+        console.log(transaction);
+
+        count++;
+        if (count === 20) {
+            arrayIndex++;
+            count = 0;
+        }
+    }
+    // setCompletion(100);
+    return transactions;
 }

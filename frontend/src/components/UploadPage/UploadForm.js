@@ -3,7 +3,7 @@ import Box from '../Generics/Box'
 import { useEffect, useState } from 'react'
 import FileUpload from '../Generics/FileUpload'
 
-import { checkFileExists, createNewFileTemplate, createNewFileArrays, uploadNewFileEstimateGas } from '../../functions/upload'
+import { checkFileExists, createNewFileTemplate, createNewFileArrays, uploadNewFileEstimateGas, uploadNewFile } from '../../functions/upload'
 
 export default function UploadForm({ provider, transactions, setTransactions }) {
 
@@ -60,33 +60,33 @@ export default function UploadForm({ provider, transactions, setTransactions }) 
 
   const handleCreateFileTemplate = async () => {
     setLoading(true)
+    await checkFileExists(file, provider)
     createNewFileTemplate(provider)
       .then(res => {
         setTransactions([...transactions, res])
         console.log('res', res)
-        setLoading(false)
       })
       .catch(err => {
         console.log('err', err)
-        setLoading(false)
       }
       )
+      setLoading(false)
   }
 
   const handleCreateFileArrays = async () => {
     setLoading(true)
+    await checkFileExists(file, provider)
     createNewFileArrays(provider)
       .then(res => {
         setTransactions(transactions.concat(res))
         console.log('res', res)
-        setLoading(false)
       }
       )
       .catch(err => {
         console.log('err', err)
-        setLoading(false)
       }
       )
+    setLoading(false)
   }
 
   const handleUploadNewFileEstimateGas = async () => {
@@ -95,6 +95,20 @@ export default function UploadForm({ provider, transactions, setTransactions }) 
     uploadNewFileEstimateGas(provider)
       .then(res => {
         setUploadGasEstimate(res)
+        console.log('res', res)
+      })
+      .catch(err => {
+        console.log('err', err)
+      })
+    setLoading(false)
+  }
+
+  const handleUploadNewFile = async () => {
+    setLoading(true)
+    await checkFileExists(file, provider)
+    uploadNewFile(provider)
+      .then(res => {
+        setTransactions(transactions.concat(res))
         console.log('res', res)
       })
       .catch(err => {
@@ -153,6 +167,7 @@ export default function UploadForm({ provider, transactions, setTransactions }) 
           loading={loading}
           disabled={!templateExists || !arraysExist}
           className="flex justify-center"
+          onClick={handleUploadNewFile}
         >
           <p>Upload File</p>
         </BoxButton>
