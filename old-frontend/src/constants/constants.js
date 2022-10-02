@@ -1,1 +1,0 @@
-export const StorageContractAddress = "0x04BD1EAA738f1F79be86fAF63E79f1809Ac6C12D";
