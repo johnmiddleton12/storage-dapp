@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import FileUpload from '../Generics/FileUpload'
 
 import { checkFileExists, createNewFileTemplate, createNewFileArrays, uploadNewFileEstimateGas, uploadNewFile } from '../../functions/upload'
+const ethers = require('ethers')
 
 export default function UploadForm({ provider, transactions, setTransactions }) {
 
@@ -125,7 +126,7 @@ export default function UploadForm({ provider, transactions, setTransactions }) 
           <p>Upload File</p>
         </div>
 
-        {provider._isProvider ? (
+        {(Object.getPrototypeOf(provider) === ethers.providers.Web3Provider.prototype) ? (
         status && (
           <div className="flex w-full bg-transparent justify-center whitespace-nowrap">
             <p className="text-red-600">Status: {status}</p>
