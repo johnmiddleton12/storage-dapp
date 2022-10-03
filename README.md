@@ -1,4 +1,4 @@
-# ChainLoader <picture> <img alt="Matic Icon" width="30" src="frontend/src/matic-token-icon.svg"> </picture>
+# ChainLoader <picture> <img alt="Matic Icon" width="30" src="frontend/public/favicon-96x96.png"> </picture>
 
 ChainLoader is a file storage application designed for use with the [Polygon](https://polygon.technology/) blockchain.
 
