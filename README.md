@@ -2,7 +2,7 @@
 
 ChainLoader is a file storage application designed for use with the [Polygon](https://polygon.technology/) blockchain.
 
-It is deployed on Vercel [here](https://storage-dapp-n8nvyvk0q-johnmiddleton12.vercel.app).
+It is deployed on Vercel [here](http://storage-dapp.vercel.app/).
 
 The motivation of this app was to create a proof of concept of the possibility of uploading relatively large, commonly used types of files to the Polygon blockchain. Since the data stored in the Polygon blockchain is immutable, this app essentially allows for the permanent storage of files. While the currently implemented smart contract is not a perfectly secure solution, the proof of concept is there. The currently deployed site points to a contract deployed on the Polygon blockchain due to the significantly lower transaction fees, however, everything involved in this application could theoretically be deployed to a different blockchain, such as Ethereum Mainnet. 
 
