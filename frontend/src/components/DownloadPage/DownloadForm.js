@@ -118,7 +118,7 @@ export default function DownloadForm({
               <b>2</b>. Click on the download button
             </p>
             <p className="font-thin">
-              <b>Sample Files</b>: songSmall7, incubator, Sunset-1
+              <b>Sample Files</b>: songSmall7, Sunset-1
             </p>
             <p className="font-thin">
               <b>Note</b>: Enter the file name{' '}
